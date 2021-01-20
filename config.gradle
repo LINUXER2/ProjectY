@@ -1,0 +1,11 @@
+ext {
+    //配置信息
+    defConfig = [
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.2",
+            minSdkVersion    : 26,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+}

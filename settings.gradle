@@ -1,0 +1,2 @@
+include ':app', ':frame-api', ':main', 'baseModule:utils', 'baseModule:res'
+rootProject.name='ProjectY'
