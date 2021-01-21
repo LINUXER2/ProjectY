@@ -1,2 +1,7 @@
-include ':app', ':frame-api', ':main', 'baseModule:utils', 'baseModule:res'
+include ':app',
+        ':frame-api',
+        'baseModule:utils',
+        'baseModule:res',
+        'baseModule:base',
+        'mainModule:main'
 rootProject.name='ProjectY'
