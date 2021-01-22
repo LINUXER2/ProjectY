@@ -1,12 +1,12 @@
-package com.jinn.frameapi.base;
+package com.jinn.projecty.frameapi.base;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
 
-import com.jinn.frameapi.interfaces.IApplicationInterface;
-import com.jinn.frameapi.service.ServiceManager;
+import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
+import com.jinn.projecty.frameapi.service.ServiceManager;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

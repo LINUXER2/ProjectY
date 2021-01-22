@@ -1,4 +1,4 @@
-package com.jinn.frameapi.interfaces;
+package com.jinn.projecty.frameapi.interfaces;
 
 import android.content.res.Configuration;
 

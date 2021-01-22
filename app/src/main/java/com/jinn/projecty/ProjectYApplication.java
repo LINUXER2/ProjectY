@@ -2,7 +2,7 @@ package com.jinn.projecty;
 
 import android.content.res.Configuration;
 
-import com.jinn.frameapi.base.BaseApplication;
+import com.jinn.projecty.frameapi.base.BaseApplication;
 
 /**
  * Created by jinnlee on 2021/1/19.

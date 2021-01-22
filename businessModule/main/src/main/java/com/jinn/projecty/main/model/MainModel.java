@@ -1,4 +1,4 @@
-package com.jinn.projecty.main.ui.main;
+package com.jinn.projecty.main.model;
 
 import com.jinn.projecty.base.BaseModel;
 

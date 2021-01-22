@@ -3,5 +3,5 @@ include ':app',
         'baseModule:utils',
         'baseModule:res',
         'baseModule:base',
-        'mainModule:main'
+        'businessModule:main'
 rootProject.name='ProjectY'

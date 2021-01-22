@@ -1,4 +1,4 @@
-package com.jinn.projecty.main.ui.main;
+package com.jinn.projecty.main.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.jinn.projecty.base.BaseFragment;
 import com.jinn.projecty.main.R;
+import com.jinn.projecty.main.model.ViewModelFactory;
+import com.jinn.projecty.main.model.MainViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +63,6 @@ public class MainFragment extends BaseFragment<MainViewModel> {
 
     @Override
     protected ViewModelProvider.Factory onBindViewModelFactory() {
-        return new MainViewModelFactory(getActivity().getApplication());
+        return ViewModelFactory.getInstance(getActivity().getApplication());
     }
 }

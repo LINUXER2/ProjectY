@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
                     .commitNow();
         }
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, com.jinn.projecty.main.MainActivity.class);
+        intent.setClass(MainActivity.this, com.jinn.projecty.main.ui.MainActivity.class);
         startActivity(intent);
 
     }

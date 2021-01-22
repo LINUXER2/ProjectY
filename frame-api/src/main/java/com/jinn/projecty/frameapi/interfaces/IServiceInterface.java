@@ -1,4 +1,4 @@
-package com.jinn.frameapi.interfaces;
+package com.jinn.projecty.frameapi.interfaces;
 
 /**
  * Created by jinnlee on 2021/1/19.

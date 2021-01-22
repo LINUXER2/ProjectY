@@ -1,10 +1,10 @@
-package com.jinn.projecty.main;
+package com.jinn.projecty.main.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.jinn.projecty.main.ui.main.MainFragment;
+import com.jinn.projecty.main.R;
 
 public class MainActivity extends AppCompatActivity {
 

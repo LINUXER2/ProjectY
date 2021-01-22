@@ -4,7 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 
-import com.jinn.frameapi.interfaces.IServiceInterface;
+import com.jinn.projecty.frameapi.interfaces.IServiceInterface;
 import com.jinn.projecty.utils.LogUtils;
 
 /**

@@ -1,10 +1,10 @@
-package com.jinn.frameapi.service;
+package com.jinn.projecty.frameapi.service;
 
 import android.app.Service;
 import android.content.Context;
 import android.util.Log;
 
-import com.jinn.frameapi.interfaces.IServiceInterface;
+import com.jinn.projecty.frameapi.interfaces.IServiceInterface;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
