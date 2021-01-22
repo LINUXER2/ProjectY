@@ -4,20 +4,20 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/base_content"
+        android:id="@+id/base_frag_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
 
     <ViewStub
-        android:id="@+id/base_loading_conent"
+        android:id="@+id/base_frag_loading_conent"
         android:layout="@layout/base_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ViewStub>
 
     <ViewStub
-        android:id="@+id/base_error_conent"
+        android:id="@+id/base_frag_error_conent"
         android:layout="@layout/base_error_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

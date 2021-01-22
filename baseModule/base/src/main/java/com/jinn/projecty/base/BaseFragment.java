@@ -13,15 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by jinnlee on 2021/1/20.
  */
 public abstract class BaseFragment <VM extends BaseViewModel>extends Fragment {
-    private VM mViewModel;
+    protected VM mViewModel;
     private ViewStub mViewStubLoading = null;
     private ViewStub mViewStubError = null;
     private View mLoadingView;
@@ -35,7 +34,7 @@ public abstract class BaseFragment <VM extends BaseViewModel>extends Fragment {
     }
 
     private void createViewModel(){
-        mViewModel = new ViewModelProvider(this,onBindViewModelFactory()).get(onBindViewModel());
+        mViewModel = ViewModelProviders.of(this,onBindViewModelFactory()).get(onBindViewModel());
     }
 
     protected abstract ViewModelProvider.Factory onBindViewModelFactory();
@@ -56,10 +55,10 @@ public abstract class BaseFragment <VM extends BaseViewModel>extends Fragment {
     }
 
     private void initBaseLayout(View contentView){
-        FrameLayout contentLayout = contentView.findViewById(R.id.base_content);
+        FrameLayout contentLayout = contentView.findViewById(R.id.base_frag_content);
         contentLayout.removeAllViews();
 
-        mViewStubLoading = (ViewStub)contentLayout.findViewById(R.id.base_loading_conent);
+        mViewStubLoading = (ViewStub)contentView.findViewById(R.id.base_frag_loading_conent);
         View view = LayoutInflater.from(getActivity()).inflate(getLayoutId(),contentLayout,false);
         contentLayout.addView(view);
         initView(view);

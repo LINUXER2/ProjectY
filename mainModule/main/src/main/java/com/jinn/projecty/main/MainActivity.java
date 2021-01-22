@@ -1,11 +1,10 @@
-package com.jinn.projecty;
-
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.jinn.projecty.ui.main.MainFragment;
+package com.jinn.projecty.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import com.jinn.projecty.main.ui.main.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,9 +17,5 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow();
         }
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this, com.jinn.projecty.main.MainActivity.class);
-        startActivity(intent);
-
     }
 }
