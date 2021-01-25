@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
 import com.jinn.projecty.frameapi.service.ServiceManager;
+import com.jinn.projecty.utils.LogUtils;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  *  Application 基类，负责将生命周期同步给各个子module；
  */
 public class BaseApplication extends Application implements IApplicationInterface {
+    private static final String TAG = "BaseApplication";
     private ArrayList<IApplicationInterface> mModuleApplications =new ArrayList<>();
 
 
@@ -26,6 +28,7 @@ public class BaseApplication extends Application implements IApplicationInterfac
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        LogUtils.d(TAG,"BaseApplication,attachBaseContext");
         createApplications(base);
         createServices(base);
     }
@@ -85,6 +88,7 @@ public class BaseApplication extends Application implements IApplicationInterfac
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtils.d(TAG,"BaseApplication,onCreate");
         for(IApplicationInterface application : mModuleApplications){
             application.onCreate();
         }

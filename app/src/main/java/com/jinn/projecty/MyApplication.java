@@ -7,8 +7,8 @@ import com.jinn.projecty.frameapi.base.BaseApplication;
 /**
  * Created by jinnlee on 2021/1/19.
  */
-public class ProjectYApplication extends BaseApplication {
-    public ProjectYApplication() {
+public class MyApplication extends BaseApplication {
+    public MyApplication() {
         super();
     }
 
