@@ -13,6 +13,11 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    compileOptions {
+        sourceCompatibility  rootProject.ext.defConfig.sourceCompatibility
+        targetCompatibility  rootProject.ext.defConfig.targetCompatibility
+    }
+
     buildTypes {
         release {
             minifyEnabled false

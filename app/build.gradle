@@ -11,6 +11,10 @@ android {
         versionName rootProject.ext.defConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility  rootProject.ext.defConfig.sourceCompatibility
+        targetCompatibility  rootProject.ext.defConfig.targetCompatibility
+    }
     buildTypes {
         release {
             minifyEnabled false

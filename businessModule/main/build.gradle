@@ -13,6 +13,11 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    compileOptions {
+        sourceCompatibility  rootProject.ext.defConfig.sourceCompatibility
+        targetCompatibility  rootProject.ext.defConfig.targetCompatibility
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,4 +37,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(path: ':baseModule:base')
+    implementation project(path: ':baseModule:res')
+    implementation project(path: ':baseModule:utils')
+    implementation project(path: ':baseModule:network')
 }

@@ -11,14 +11,19 @@ import com.jinn.projecty.base.BaseFragment;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.model.ViewModelFactory;
 import com.jinn.projecty.main.model.MainViewModel;
+import com.jinn.projecty.utils.LogUtils;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 public class MainFragment extends BaseFragment<MainViewModel> {
 
     private TextView mTextView;
+    private final String TAG = "MainFragment";
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -48,12 +53,13 @@ public class MainFragment extends BaseFragment<MainViewModel> {
     protected void initView(View view) {
         mTextView = view.findViewById(R.id.message);
         mViewModel.getLiveDataShowLoading().postValue(true);
-        new Handler().postDelayed(new Runnable() {
+        mViewModel.getVideoLists().observe(this, new Observer<List<String>>() {
             @Override
-            public void run() {
-                mViewModel.getLiveDataShowLoading().postValue(false);
+            public void onChanged(List<String> strings) {
+                LogUtils.d(TAG,"onChanged,videoList:"+strings.toString());
             }
-        },2000);
+        });
+        mViewModel.requestMainData();
     }
 
     @Override
