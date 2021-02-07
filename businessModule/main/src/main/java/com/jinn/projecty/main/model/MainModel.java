@@ -16,4 +16,8 @@ public class MainModel extends BaseModel {
     public Observable<RecommandData> requestMainData(){
        return RetrofitManager.getInstance().createService(RetrofitApi.class,BASE_URL).getMainData("2");
     }
+
+    public Observable<RecommandData>requestRelateData(){
+        return RetrofitManager.getInstance().createService(RetrofitApi.class,BASE_URL).getMainData("2");
+    }
 }
