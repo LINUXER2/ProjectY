@@ -39,6 +39,7 @@ public class ServiceManager {
     public void loadServices(Context context){
          HashMap<String,String>hashMap =new HashMap<>();
          hashMap.put("mainAppService","com.jinn.projecty.api.MainAppService");
+         hashMap.put("businessMainService","com.jinn.projecty.main.api.BusinessMainService");
 
          for(Map.Entry entry : hashMap.entrySet()){
              String key = (String)entry.getKey();

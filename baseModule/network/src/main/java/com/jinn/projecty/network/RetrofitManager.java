@@ -75,7 +75,7 @@ public class RetrofitManager {
         MockInterceptor mockInterceptor = new MockInterceptor(mockString);
         return new OkHttpClient.Builder()
                 .addInterceptor(logInterceptor)
-                .addInterceptor(mockInterceptor)
+               // .addInterceptor(mockInterceptor)
                 .build();
     }
 

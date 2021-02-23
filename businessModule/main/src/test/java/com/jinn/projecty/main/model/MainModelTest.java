@@ -2,7 +2,7 @@ package com.jinn.projecty.main.model;
 
 import com.jinn.projecty.main.RxjavaRule;
 import com.jinn.projecty.main.api.RetrofitApi;
-import com.jinn.projecty.main.bean.RecommandData;
+import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.network.RetrofitManager;
 
 import org.junit.After;
@@ -66,14 +66,14 @@ public class MainModelTest {
         RetrofitManager.getInstance().createService(RetrofitApi.class,BASE_URL).getMainData("2")
                 .subscribeOn(Schedulers.io())
               //  .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RecommandData>() {
+                .subscribe(new Observer<RecommandDataBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         System.out.println("onSubscribe");
                     }
 
                     @Override
-                    public void onNext(RecommandData recommandData) {
+                    public void onNext(RecommandDataBean recommandData) {
                         System.out.println("onNext:"+recommandData.toString());
                     }
 

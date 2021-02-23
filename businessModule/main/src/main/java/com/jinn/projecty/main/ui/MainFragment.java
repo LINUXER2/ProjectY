@@ -9,9 +9,12 @@ import android.widget.TextView;
 
 import com.jinn.projecty.base.BaseFragment;
 import com.jinn.projecty.main.R;
+import com.jinn.projecty.main.adapter.RecommandAdapter;
+import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.main.model.ViewModelFactory;
 import com.jinn.projecty.main.model.MainViewModel;
 import com.jinn.projecty.utils.LogUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
@@ -19,10 +22,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainFragment extends BaseFragment<MainViewModel> {
 
-    private TextView mTextView;
+    private RecyclerView mRecycleView;
+    private SmartRefreshLayout mRefreshLayout;
     private final String TAG = "MainFragment";
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -51,12 +57,18 @@ public class MainFragment extends BaseFragment<MainViewModel> {
 
     @Override
     protected void initView(View view) {
-        mTextView = view.findViewById(R.id.message);
+        mRecycleView = view.findViewById(R.id.main_recycle_view);
+      //  mRefreshLayout = view.findViewById(R.id.main_refresh_layout);
         mViewModel.getLiveDataShowLoading().postValue(true);
-        mViewModel.getVideoLists().observe(this, new Observer<List<String>>() {
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecommandAdapter adapter = new RecommandAdapter(getActivity());
+        mRecycleView.setAdapter(adapter);
+        mViewModel.getVideoLists().observe(this, new Observer<RecommandDataBean>() {
             @Override
-            public void onChanged(List<String> strings) {
-                LogUtils.d(TAG,"onChanged,videoList:"+strings.toString());
+            public void onChanged(RecommandDataBean bean) {
+                LogUtils.d(TAG,"onChanged,"+bean.getNextPageUrl());
+                adapter.initData(bean);
+
             }
         });
         mViewModel.requestMainData();

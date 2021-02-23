@@ -1,6 +1,6 @@
 package com.jinn.projecty.main.api;
 
-import com.jinn.projecty.main.bean.RecommandData;
+import com.jinn.projecty.main.bean.RecommandDataBean;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import retrofit2.http.Query;
  */
 public interface RetrofitApi {
   @GET("v2/feed?")
-    Observable<RecommandData>getMainData(@Query("key")String key);
+    Observable<RecommandDataBean>getMainData(@Query("key")String key);
 
   @GET("v2/feed")
     Observable<ResponseBody>getMainData2(@FieldMap Map<String,Object>map);

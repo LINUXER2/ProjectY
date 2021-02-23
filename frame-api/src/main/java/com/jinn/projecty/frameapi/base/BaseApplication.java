@@ -40,7 +40,7 @@ public class BaseApplication extends Application implements IApplicationInterfac
      */
     private void createApplications(Context context){
         ArrayList<String> classNames = new ArrayList<>();
-        classNames.add("com.jinn.projecty.BaseApplication");
+        classNames.add("com.jinn.projecty.main.MainApplication");
 
         for (String className : classNames) {
             Class<?>clazz = null;

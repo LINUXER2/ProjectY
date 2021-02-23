@@ -20,7 +20,11 @@ public class MainAppService implements IServiceInterface {
     }
 
     public MainAppService(){
-
+        LogUtils.d(TAG,"MainAppService,constructor1");
+    }
+    public MainAppService(Context context){
+        mContext = context;
+        LogUtils.d(TAG,"MainAppService,constructor2");
     }
 
     /**

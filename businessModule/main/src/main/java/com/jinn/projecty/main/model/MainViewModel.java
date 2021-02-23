@@ -3,15 +3,8 @@ package com.jinn.projecty.main.model;
 import android.app.Application;
 
 import com.jinn.projecty.base.BaseViewModel;
-import com.jinn.projecty.main.api.RetrofitApi;
-import com.jinn.projecty.main.bean.RecommandData;
-import com.jinn.projecty.main.model.MainModel;
-import com.jinn.projecty.network.RetrofitManager;
+import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.utils.LogUtils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +13,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 /**
  * Created by jinnlee on 2021/1/25.
@@ -28,7 +20,7 @@ import okhttp3.ResponseBody;
  */
 public class MainViewModel extends BaseViewModel <MainModel>{
     private final String TAG= "MainViewModel";
-    private MutableLiveData<List<String>> mVideoLists;
+    private MutableLiveData<RecommandDataBean> mRecommandData;
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
@@ -38,30 +30,27 @@ public class MainViewModel extends BaseViewModel <MainModel>{
         mModel = model;
     }
 
-    public MutableLiveData<List<String>> getVideoLists(){
-        if(mVideoLists==null){
-            mVideoLists = new MutableLiveData<>();
+    public MutableLiveData<RecommandDataBean> getVideoLists(){
+        if(mRecommandData ==null){
+            mRecommandData = new MutableLiveData<>();
         }
-        return mVideoLists;
+        return mRecommandData;
     }
 
     public void requestMainData(){
         mModel.requestMainData().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<RecommandData>() {
+                .subscribe(new Observer<RecommandDataBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         LogUtils.d(TAG,"onSubscribe,");
                     }
 
                     @Override
-                    public void onNext(RecommandData recommandData) {
-                        String response;
-
-                            response = recommandData.toString();
+                    public void onNext(RecommandDataBean recommandData) {
+                            LogUtils.d(TAG,"onNext:"+recommandData.getNextPageUrl());
+                            mRecommandData.postValue(recommandData);
                             getLiveDataShowLoading().postValue(false);
-                            LogUtils.d(TAG,"onNext,"+response);
-
                     }
 
                     @Override
