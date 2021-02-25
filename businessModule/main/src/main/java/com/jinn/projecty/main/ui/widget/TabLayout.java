@@ -21,6 +21,7 @@ import java.util.List;
 public class TabLayout extends LinearLayout {
     private Context mContext;
     private List<String> mTabs = new ArrayList<>();
+    private OnTabClickListener mTabListener;
     private final String TAG = "TabLayout";
 
     public TabLayout(Context context) {
@@ -85,7 +86,9 @@ public class TabLayout extends LinearLayout {
     private OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-
+             if(mTabListener!=null){
+                 mTabListener.onTabClicked((int)v.getTag());
+             }
         }
     };
 
@@ -94,5 +97,13 @@ public class TabLayout extends LinearLayout {
         textView.setText(text);
         textView.setGravity(Gravity.CENTER);
         return textView;
+    }
+
+    public void setTabClickListener(OnTabClickListener listener){
+        this.mTabListener = listener;
+    }
+
+    public interface OnTabClickListener{
+        public void onTabClicked(int index);
     }
 }

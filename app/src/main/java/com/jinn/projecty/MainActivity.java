@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, com.jinn.projecty.main.ui.MainActivity.class);
         startActivity(intent);
+        finish();
 
     }
 }

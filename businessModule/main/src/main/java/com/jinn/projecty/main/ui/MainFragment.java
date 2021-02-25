@@ -15,6 +15,11 @@ import com.jinn.projecty.main.model.ViewModelFactory;
 import com.jinn.projecty.main.model.MainViewModel;
 import com.jinn.projecty.utils.LogUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.List;
 
@@ -30,6 +35,7 @@ public class MainFragment extends BaseFragment<MainViewModel> {
     private RecyclerView mRecycleView;
     private SmartRefreshLayout mRefreshLayout;
     private final String TAG = "MainFragment";
+    private String mNextPageUrl;
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -58,7 +64,7 @@ public class MainFragment extends BaseFragment<MainViewModel> {
     @Override
     protected void initView(View view) {
         mRecycleView = view.findViewById(R.id.main_recycle_view);
-      //  mRefreshLayout = view.findViewById(R.id.main_refresh_layout);
+        mRefreshLayout = view.findViewById(R.id.main_refresh_layout);
         mViewModel.getLiveDataShowLoading().postValue(true);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecommandAdapter adapter = new RecommandAdapter(getActivity());
@@ -66,9 +72,26 @@ public class MainFragment extends BaseFragment<MainViewModel> {
         mViewModel.getVideoLists().observe(this, new Observer<RecommandDataBean>() {
             @Override
             public void onChanged(RecommandDataBean bean) {
+                mNextPageUrl = bean.getNextPageUrl();
                 LogUtils.d(TAG,"onChanged,"+bean.getNextPageUrl());
-                adapter.initData(bean);
+                if(!bean.isRecommand()){
+                    adapter.initData(bean);
+                }else{
+                    adapter.updateData(bean);
+                }
+            }
+        });
+        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                LogUtils.d(TAG,"load more:");
+                mViewModel.requestMoreData(mNextPageUrl);
+            }
 
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                LogUtils.d(TAG,"onRefresh");
+                mViewModel.requestMainData();
             }
         });
         mViewModel.requestMainData();

@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManager {
     private static RetrofitManager sInstance;
     private HashMap<Class, Object> mApis = new HashMap<>();
+    private final String TAG = "RetrofitManager";
 
     private RetrofitManager(){
     }
@@ -65,7 +66,7 @@ public class RetrofitManager {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-               // Log.d("OkHttp", message);
+            Log.d(TAG,"responseMessage:"+message);
             }
         });
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

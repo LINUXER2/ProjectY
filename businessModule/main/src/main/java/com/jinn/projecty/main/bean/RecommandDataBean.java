@@ -1,6 +1,7 @@
 package com.jinn.projecty.main.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +71,18 @@ public class RecommandDataBean implements Serializable {
         return true;
     }
 
+    private boolean isRecommand = false;
+
+    public boolean isRecommand() {
+        return isRecommand;
+    }
+
+    public void setRecommand(boolean recommand) {
+        isRecommand = recommand;
+    }
+
+
+
     public static class IssueListBean implements Serializable{
         /**
          * releaseTime : 1614128400000
@@ -85,7 +98,7 @@ public class RecommandDataBean implements Serializable {
         private long date;
         private long publishTime;
         private int count;
-        private List<ItemListBean> itemList;
+        private ArrayList<ItemListBean> itemList;
 
         public long getReleaseTime() {
             return releaseTime;
@@ -127,11 +140,11 @@ public class RecommandDataBean implements Serializable {
             this.count = count;
         }
 
-        public List<ItemListBean> getItemList() {
+        public ArrayList<ItemListBean> getItemList() {
             return itemList;
         }
 
-        public void setItemList(List<ItemListBean> itemList) {
+        public void setItemList(ArrayList<ItemListBean> itemList) {
             this.itemList = itemList;
         }
 

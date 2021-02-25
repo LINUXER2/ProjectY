@@ -48,9 +48,38 @@ public class MainViewModel extends BaseViewModel <MainModel>{
 
                     @Override
                     public void onNext(RecommandDataBean recommandData) {
-                            LogUtils.d(TAG,"onNext:"+recommandData.getNextPageUrl());
-                            mRecommandData.postValue(recommandData);
-                            getLiveDataShowLoading().postValue(false);
+                        LogUtils.d(TAG,"onNext:"+recommandData.getNextPageUrl());
+                        recommandData.setRecommand(false);
+                        mRecommandData.postValue(recommandData);
+                        getLiveDataShowLoading().postValue(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.d(TAG,"onError,"+e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LogUtils.d(TAG,"onComplete");
+                    }
+                });
+    }
+
+    public void requestMoreData(String url){
+        mModel.requestRelateData(url).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<RecommandDataBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        LogUtils.d(TAG,"onSubscribe");
+                    }
+
+                    @Override
+                    public void onNext(RecommandDataBean bean) {
+                        LogUtils.d(TAG,"onNext:"+bean.getNextPageUrl());
+                        bean.setRecommand(true);
+                        mRecommandData.postValue(bean);
                     }
 
                     @Override

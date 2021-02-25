@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by jinnlee on 2021/1/27.
@@ -23,6 +24,10 @@ public interface RetrofitApi {
 
   @GET("v2/feed?")
     Call<ResponseBody>getMainData3(@Query("key")String key);
+
+  //根据 nextPageUrl 请求数据下一页数据
+  @GET
+    Observable<RecommandDataBean>getMoreData(@Url String url);
 
 
 }

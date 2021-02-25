@@ -9,10 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DrawableTransformation;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.main.constant.Constant;
 import com.jinn.projecty.utils.LogUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,19 +30,24 @@ public class RecommandAdapter extends RecyclerView.Adapter {
     private final String TAG ="RecommandAdapter";
     public static final int TYPE_VIDEO = 0;
     public static final int TYPE_BANNER =1;
-    private RecommandDataBean mData;
+    public static final int TYPE_OTHERS =2;
+    private ArrayList<RecommandDataBean.IssueListBean.ItemListBean> mLists = new ArrayList<>();
     private Context mContext;
     public RecommandAdapter(Context context){
          mContext = context;
     }
 
     public void initData(RecommandDataBean data) {
-        mData = data;
+        mLists.clear();
+        mLists.addAll(data.getIssueList().get(0).getItemList());
+        LogUtils.d(TAG,"initData:size"+mLists.size());
         notifyDataSetChanged();
     }
 
     public void updateData(RecommandDataBean data){
-
+        int pos = mLists.size();
+        mLists.addAll(data.getIssueList().get(0).getItemList());
+        notifyItemRangeChanged(pos,mLists.size());
     }
 
     @NonNull
@@ -53,48 +64,51 @@ public class RecommandAdapter extends RecyclerView.Adapter {
                 ViewHolderVideo viewHolderVideo;
                 viewHolderVideo = new ViewHolderVideo(viewVideo);
                 return viewHolderVideo;
-                default:
-                    return null;
+            default:
+                 View viewDefault = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_video,parent,false);
+                 ViewHolderOther viewHolderDefault;
+                 viewHolderDefault = new ViewHolderOther(viewDefault);
+                 return viewHolderDefault;
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
            if(holder instanceof ViewHolderVideo){
-               String newsTitle = mData.getIssueList().get(0).getItemList().get(position).getData().getTitle();
-               String newsImageUrl = mData.getIssueList().get(0).getItemList().get(position).getData().getCover().getFeed();
+               String newsTitle = mLists.get(position).getData().getTitle();
+               String newsImageUrl = mLists.get(position).getData().getCover().getFeed();
                LogUtils.d(TAG,"onBindViewHolder:video image:"+newsImageUrl);
                ((ViewHolderVideo) holder).mTitle.setText(newsTitle);
-               Glide.with(mContext).load(newsImageUrl).into(((ViewHolderVideo) holder).mImage);
+               Glide.with(mContext).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderVideo) holder).mImage);
            }else if(holder instanceof ViewHolderBanner){
-               String newsTitle = mData.getIssueList().get(0).getItemList().get(position).getData().getTitle();
-               String newsImageUrl = mData.getIssueList().get(0).getItemList().get(position).getData().getImage();
+               String newsTitle =mLists.get(position).getData().getTitle();
+               String newsImageUrl = mLists.get(position).getData().getImage();
                LogUtils.d(TAG,"onBindViewHolder:banner image:"+newsImageUrl);
                ((ViewHolderBanner) holder).mTitle.setText(newsTitle);
-               Glide.with(mContext).load(newsImageUrl).into(((ViewHolderBanner) holder).mImage);
-        }
+               Glide.with(mContext).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderBanner) holder).mImage);
+            }else if(holder instanceof ViewHolderOther){
+
+           }
     }
 
     @Override
     public int getItemViewType(int position) {
         super.getItemViewType(position);
-        String type = mData.getIssueList().get(0).getItemList().get(position).getType();
+        String type = mLists.get(position).getType();
+        LogUtils.d(TAG,"getItemViewType:"+type);
         if (TextUtils.equals(type, Constant.newsTypeBanner)) {
             return TYPE_BANNER;
         } else if (TextUtils.equals(type, Constant.newsTypeVideo)) {
             return TYPE_VIDEO;
         } else {
-            return -1;
+            return TYPE_OTHERS;
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mData==null|| !mData.isDataValid()) {
-            return 0;
-        }
-        LogUtils.d(TAG,"getItemCount:"+mData.getIssueList().get(0).getItemList().size());
-        return mData.getIssueList().get(0).getItemList().size();
+        LogUtils.d(TAG,"getItemCount:"+mLists.size());
+        return mLists.size();
     }
 
 
@@ -115,6 +129,17 @@ public class RecommandAdapter extends RecyclerView.Adapter {
         public ImageView mImage;
 
         public ViewHolderVideo(View itemView) {
+            super(itemView);
+            mTitle = itemView.findViewById(R.id.news_title);
+            mImage=itemView.findViewById(R.id.news_image);
+        }
+    }
+
+    public static class ViewHolderOther extends RecyclerView.ViewHolder {
+        public TextView mTitle;
+        public ImageView mImage;
+
+        public ViewHolderOther(View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.news_title);
             mImage=itemView.findViewById(R.id.news_image);
