@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.DrawableTransformation;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.bean.RecommandDataBean;
@@ -17,8 +16,6 @@ import com.jinn.projecty.main.constant.Constant;
 import com.jinn.projecty.utils.LogUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,20 +36,25 @@ public class RecommandAdapter extends RecyclerView.Adapter {
 
     public void initData(RecommandDataBean data) {
         mLists.clear();
-        mLists.addAll(data.getIssueList().get(0).getItemList());
+        ArrayList<RecommandDataBean.IssueListBean.ItemListBean> list = data.getIssueList().get(0).getItemList();
+        list.removeIf(obj-> !TextUtils.equals(obj.getType(),Constant.newsTypeVideo)&&!TextUtils.equals(obj.getType(),Constant.newsTypeBanner));
+        mLists.addAll(list);
         LogUtils.d(TAG,"initData:size"+mLists.size());
         notifyDataSetChanged();
     }
 
     public void updateData(RecommandDataBean data){
         int pos = mLists.size();
-        mLists.addAll(data.getIssueList().get(0).getItemList());
+        ArrayList<RecommandDataBean.IssueListBean.ItemListBean> list = data.getIssueList().get(0).getItemList();
+        list.removeIf(obj-> !TextUtils.equals(obj.getType(),Constant.newsTypeVideo)&&!TextUtils.equals(obj.getType(),Constant.newsTypeBanner));
+        mLists.addAll(list);
         notifyItemRangeChanged(pos,mLists.size());
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LogUtils.d(TAG,"onCreateViewHolder:viewType:"+viewType);
         switch (viewType){
             case TYPE_BANNER:
                 ViewHolderBanner viewHolderBanner;
