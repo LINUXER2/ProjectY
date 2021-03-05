@@ -46,6 +46,7 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel> extends Fra
         contentLayout.removeAllViews();
         View view = LayoutInflater.from(this).inflate(getLayoutId(),contentLayout,false);
         contentLayout.addView(view);
+        initView(view);
         mViewStubLoading =findViewById(R.id.base_loading_conent);
         mViewStubError = findViewById(R.id.base_error_conent);
     }

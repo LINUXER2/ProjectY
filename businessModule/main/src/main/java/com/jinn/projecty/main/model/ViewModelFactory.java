@@ -35,6 +35,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if(modelClass.isAssignableFrom(MainViewModel.class)){
             return (T)new MainViewModel(mApplication,new MainModel());
+        }else if(modelClass.isAssignableFrom(VideoDetailViewModel.class)){
+            return (T)new VideoDetailViewModel(mApplication,new VideoDetailModel());
         }else {
             throw new IllegalArgumentException("unknow viewModel:"+modelClass.getName());
         }

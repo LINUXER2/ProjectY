@@ -1,9 +1,7 @@
 package com.jinn.projecty.main.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.nfc.Tag;
 import android.os.Bundle;
+import android.view.Window;
 
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.ui.widget.TabLayout;
@@ -11,12 +9,15 @@ import com.jinn.projecty.utils.LogUtils;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout mTabLayout;
     private final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         if (savedInstanceState == null) {

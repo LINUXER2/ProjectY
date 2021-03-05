@@ -1,6 +1,7 @@
 package com.jinn.projecty.main.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,20 +19,24 @@ import com.jinn.projecty.utils.LogUtils;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by jinnlee on 2021/2/23.
  */
-public class RecommandAdapter extends RecyclerView.Adapter {
+public class RecommandAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private final String TAG ="RecommandAdapter";
     public static final int TYPE_VIDEO = 0;
     public static final int TYPE_BANNER =1;
     public static final int TYPE_OTHERS =2;
     private ArrayList<RecommandDataBean.IssueListBean.ItemListBean> mLists = new ArrayList<>();
-    private Context mContext;
-    public RecommandAdapter(Context context){
-         mContext = context;
+    private Activity mActivity;
+    public RecommandAdapter(Activity context){
+         mActivity = context;
     }
 
     public void initData(RecommandDataBean data) {
@@ -60,11 +65,13 @@ public class RecommandAdapter extends RecyclerView.Adapter {
                 ViewHolderBanner viewHolderBanner;
                 View viewBanner = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_banner,parent,false);
                 viewHolderBanner = new ViewHolderBanner(viewBanner);
+                viewHolderBanner.mImage.setOnClickListener(this);
                 return viewHolderBanner;
             case TYPE_VIDEO:
                 View viewVideo = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_video,parent,false);
                 ViewHolderVideo viewHolderVideo;
                 viewHolderVideo = new ViewHolderVideo(viewVideo);
+                viewHolderVideo.mImage.setOnClickListener(this);
                 return viewHolderVideo;
             default:
                  View viewDefault = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_video,parent,false);
@@ -81,16 +88,21 @@ public class RecommandAdapter extends RecyclerView.Adapter {
                String newsImageUrl = mLists.get(position).getData().getCover().getFeed();
                LogUtils.d(TAG,"onBindViewHolder:video image:"+newsImageUrl);
                ((ViewHolderVideo) holder).mTitle.setText(newsTitle);
-               Glide.with(mContext).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderVideo) holder).mImage);
+               ((ViewHolderVideo) holder).mImage.setTransitionName(newsImageUrl);
+               Glide.with(mActivity).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderVideo) holder).mImage);
+               ((ViewHolderVideo) holder).mImage.setTag(position);
            }else if(holder instanceof ViewHolderBanner){
                String newsTitle =mLists.get(position).getData().getTitle();
                String newsImageUrl = mLists.get(position).getData().getImage();
                LogUtils.d(TAG,"onBindViewHolder:banner image:"+newsImageUrl);
                ((ViewHolderBanner) holder).mTitle.setText(newsTitle);
-               Glide.with(mContext).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderBanner) holder).mImage);
+               ((ViewHolderBanner) holder).mImage.setTransitionName(newsImageUrl);
+               Glide.with(mActivity).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderBanner) holder).mImage);
+               ((ViewHolderBanner) holder).mImage.setTag(position);
             }else if(holder instanceof ViewHolderOther){
 
            }
+
     }
 
     @Override
@@ -111,6 +123,18 @@ public class RecommandAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         LogUtils.d(TAG,"getItemCount:"+mLists.size());
         return mLists.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int pos = (int)v.getTag();
+        Intent intent = new Intent();
+        LogUtils.d(TAG,"onClick,name:"+v.getTransitionName());
+        Pair pair = new Pair(v, "IMG_TRANSITION");
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, pair);
+        intent.setClassName("com.jinn.projecty", "com.jinn.projecty.main.ui.VideoDetailActivity");
+        intent.putExtra("url", v.getTransitionName());
+        ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
     }
 
 

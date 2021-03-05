@@ -14,8 +14,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility  rootProject.ext.defConfig.sourceCompatibility
-        targetCompatibility  rootProject.ext.defConfig.targetCompatibility
+        sourceCompatibility rootProject.ext.defConfig.sourceCompatibility
+        targetCompatibility rootProject.ext.defConfig.targetCompatibility
     }
 
     buildTypes {
