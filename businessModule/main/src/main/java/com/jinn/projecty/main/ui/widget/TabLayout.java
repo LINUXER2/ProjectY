@@ -59,6 +59,13 @@ public class TabLayout extends LinearLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+        for(int i =0;i< getChildCount();i++){
+            View child = getChildAt(i);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)child.getLayoutParams();
+            params.width  = getMeasuredWidth()/getChildCount();
+            params.gravity = Gravity.CENTER;
+            child.setLayoutParams(params);
+        }
         LogUtils.d(TAG, "onLayout,changed:" + changed + ",l=" + l + ",t=" + t + ",r=" + r + ",b=" + b);
     }
 
@@ -71,15 +78,8 @@ public class TabLayout extends LinearLayout {
             String tab = mTabs.get(i);
             View view = generateTabView(tab);
             this.addView(view);
-        }
-        for(int i =0;i< getChildCount();i++){
-            View child = getChildAt(i);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)child.getLayoutParams();
-            params.width  = 270;
-            params.gravity = Gravity.CENTER;
-            child.setLayoutParams(params);
-            child.setTag(i);
-            child.setOnClickListener(mOnClickListener);
+            view.setTag(i);
+            view.setOnClickListener(mOnClickListener);
         }
     }
 

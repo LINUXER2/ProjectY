@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,7 +19,6 @@ import com.jinn.projecty.main.model.VideoDetailViewModel;
 import com.jinn.projecty.main.model.ViewModelFactory;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,7 +34,9 @@ public class VideoDetailActivity extends BaseFragmentActivity<VideoDetailViewMod
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         super.onCreate(savedInstanceState);
+        initEnterAnim();
         mContext = this;
         Intent intent = getIntent();
         mImgUrl = intent.getExtras().getString("url");
@@ -59,7 +60,6 @@ public class VideoDetailActivity extends BaseFragmentActivity<VideoDetailViewMod
     @Override
     protected void onResume() {
         super.onResume();
-        initEnterAnim();
         Glide.with(mContext).load(mImgUrl).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -77,12 +77,14 @@ public class VideoDetailActivity extends BaseFragmentActivity<VideoDetailViewMod
     }
 
     private void initEnterAnim(){
-        postponeEnterTransition();    //先停止动画
+        postponeEnterTransition();    //暂时阻止启动共享元素 Transition，与startPostponedEnterTransition搭配使用
+                                      // why？Transitions 必须捕获目标 View 的起始和结束状态来构建合适的动画。因此，如果框架在共享元素获得它在调用它的 App 所给定的大小和位置前启动共享元素的过渡动画，这个 Transition 将不能
+                                      // 正确捕获到共享元素的结束状态值,生成动画也会失败 https://blog.csdn.net/k_tiiime/article/details/44702681
         ViewCompat.setTransitionName(mImageView, "IMG_TRANSITION");   //设置transitionName
     }
 
     private void startAnim(){
-        startPostponedEnterTransition();   //开始动画
+        startPostponedEnterTransition();   //恢复动画，在共享元素测量和布局完毕后调用
     }
 
 }

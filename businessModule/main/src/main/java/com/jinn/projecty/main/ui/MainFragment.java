@@ -73,12 +73,15 @@ public class MainFragment extends BaseFragment<MainViewModel> {
             @Override
             public void onChanged(RecommandDataBean bean) {
                 mNextPageUrl = bean.getNextPageUrl();
-                LogUtils.d(TAG,"onChanged,"+bean.getNextPageUrl());
+                LogUtils.d(TAG,"onChanged,"+bean.getNextPageUrl()+" ,isRecommand:"+bean.isRecommand());
                 if(!bean.isRecommand()){
                     adapter.initData(bean);
+                    mRefreshLayout.finishRefresh();
                 }else{
                     adapter.updateData(bean);
+                    mRefreshLayout.finishLoadMore();
                 }
+
             }
         });
         mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
