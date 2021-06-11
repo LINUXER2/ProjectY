@@ -5,12 +5,14 @@ import com.jinn.projecty.main.api.RetrofitApi;
 import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.network.RetrofitManager;
 
+import androidx.lifecycle.LifecycleObserver;
 import io.reactivex.Observable;
 
 /**
  * Created by jinnlee on 2021/1/22.
+ * 实现LifecycleObserver
  */
-public class MainModel extends BaseModel {
+public class MainModel extends BaseModel implements LifecycleObserver {
     private final String BASE_URL = "https://baobab.kaiyanapp.com/api/";
 
     public Observable<RecommandDataBean> requestMainData(){
