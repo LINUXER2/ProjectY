@@ -12,6 +12,7 @@ import android.os.PersistableBundle;
 
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
 import com.jinn.projecty.main.message.MyHandler;
+import com.jinn.projecty.main.model.RemoteDataManager;
 import com.jinn.projecty.main.service.JobScheduleService;
 import com.jinn.projecty.utils.LogUtils;
 
@@ -35,6 +36,8 @@ public class MainApplication implements IApplicationInterface {
     public void onCreate() {
         LogUtils.d(TAG,"MainApplication onCreate");
         startJobService();
+        RemoteDataManager.getInstance(mContext).connectToService();
+        RemoteDataManager.getInstance(mContext).sendMessage();
     }
 
     private void startJobService() {

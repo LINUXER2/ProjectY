@@ -46,11 +46,11 @@ public class JobScheduleService extends JobService {
         Message m = Message.obtain();
         m.what = messageId;
         m.obj = params;
-        try {
-            mMessenger.send(m);
-        }catch (RemoteException e){
-            LogUtils.e(TAG,"send msg error:"+e.toString());
-        }
+//        try {
+//            mMessenger.send(m);
+//        }catch (RemoteException e){
+//            LogUtils.e(TAG,"send msg error:"+e.toString());
+//        }
 
     }
 
