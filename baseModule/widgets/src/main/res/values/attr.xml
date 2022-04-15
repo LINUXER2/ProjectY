@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="custom_round_iv">
+        <attr name="radius" format="dimension"></attr>
+        <attr name="radius_left_top" format="dimension"></attr>
+        <attr name="radius_right_top" format="dimension"></attr>
+        <attr name="radius_left_bottom" format="dimension"></attr>
+        <attr name="radius_right_bottom" format="dimension"></attr>
+    </declare-styleable>
+</resources>

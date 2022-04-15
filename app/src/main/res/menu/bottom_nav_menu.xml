@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+   <item android:id="@+id/nav_main"
+         android:icon ="@drawable/ic_bottom_article"
+         android:title= "文章">
+   </item>
+
+    <item android:id="@+id/nav_video"
+          android:icon ="@drawable/ic_bottom_article"
+          android:title= "视频">
+    </item>
+
+    <item android:id="@+id/nav_mine"
+          android:icon ="@drawable/ic_bottom_article"
+          android:title= "主页">
+    </item>
+</menu>

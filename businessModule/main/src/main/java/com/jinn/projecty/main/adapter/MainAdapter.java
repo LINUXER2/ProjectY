@@ -56,6 +56,14 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
         submitList(newList);
     }
 
+    public void removeData(int pos){
+        LogUtils.d(TAG,"removeData:"+pos);
+        ArrayList<RecommandDataBean.IssueListBean.ItemListBean> newList = new ArrayList<>(mLists);
+        newList.remove(pos);
+        mLists = newList;
+        submitList(newList);
+    }
+
     @NonNull
     @Override
     public ViewHolderVideo onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,7 +71,6 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
         View viewVideo = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_video,parent,false);
         ViewHolderVideo viewHolderVideo;
         viewHolderVideo = new ViewHolderVideo(viewVideo);
-        viewHolderVideo.mImage.setOnClickListener(this);
         return viewHolderVideo;
     }
 
@@ -72,10 +79,13 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
         String newsTitle = mLists.get(position).getData().getTitle();
         String newsImageUrl = mLists.get(position).getData().getCover().getFeed();
         LogUtils.d(TAG,"onBindViewHolder:video image:"+newsImageUrl);
-        ((ViewHolderVideo) holder).mTitle.setText(newsTitle);
-        ((ViewHolderVideo) holder).mImage.setTransitionName(newsImageUrl);
+        holder.mTitle.setText(newsTitle);
+        holder.mImage.setTransitionName(newsImageUrl);
         Glide.with(mActivity).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderVideo) holder).mImage);
-        ((ViewHolderVideo) holder).mImage.setTag(position);
+        holder.mImage.setTag(position);
+        holder.mMoreImg.setTag(position);
+        holder.mImage.setOnClickListener(this);
+        holder.mMoreImg.setOnClickListener(this);
     }
 
     @Override
@@ -93,25 +103,48 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
     @Override
     public void onClick(View v) {
         int pos = (int)v.getTag();
-        Intent intent = new Intent();
-        LogUtils.d(TAG,"onClick,name:"+v.getTransitionName());
-        Pair pair = new Pair(v, "IMG_TRANSITION");
-        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, pair);
-        intent.setClassName("com.jinn.projecty", "com.jinn.projecty.main.ui.VideoDetailActivity");
-        intent.putExtra("url", v.getTransitionName());
-        ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
+        if (v.getId() == R.id.more) {
+            removeData(pos);
+        } else if(v.getId() == R.id.news_image){
+            Intent intent = new Intent();
+            LogUtils.d(TAG, "onClick,name:" + v.getTransitionName());
+            Pair pair = new Pair(v, "IMG_TRANSITION");
+            ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, pair);
+            intent.setClassName("com.jinn.projecty", "com.jinn.projecty.main.ui.VideoDetailActivity");
+            intent.putExtra("url", v.getTransitionName());
+            ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
+        }
     }
 
 
     public static class ViewHolderVideo extends RecyclerView.ViewHolder {
         public TextView mTitle;
         public ImageView mImage;
+        public ImageView mMoreImg;
 
         public ViewHolderVideo(View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.news_title);
             mImage=itemView.findViewById(R.id.news_image);
+            mMoreImg = itemView.findViewById(R.id.more);
         }
     }
 
+    @Override
+    public void onViewRecycled(@NonNull ViewHolderVideo holder) {
+        LogUtils.d(TAG,"onViewRecycled,"+holder.mTitle);
+        super.onViewRecycled(holder);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull ViewHolderVideo holder) {
+        LogUtils.d(TAG,"onViewAttachedToWindow");
+        super.onViewAttachedToWindow(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ViewHolderVideo holder) {
+        LogUtils.d(TAG,"onViewDetachedFromWindow");
+        super.onViewDetachedFromWindow(holder);
+    }
 }

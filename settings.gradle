@@ -1,3 +1,5 @@
+include ':baseModule:widgets'
+include ':businessModule:video'
 include ':app',
         ':frame-api',
         'baseModule:network',

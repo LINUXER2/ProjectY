@@ -17,8 +17,10 @@
             <option value="$PROJECT_DIR$/baseModule/network" />
             <option value="$PROJECT_DIR$/baseModule/res" />
             <option value="$PROJECT_DIR$/baseModule/utils" />
+            <option value="$PROJECT_DIR$/baseModule/widgets" />
             <option value="$PROJECT_DIR$/businessModule" />
             <option value="$PROJECT_DIR$/businessModule/main" />
+            <option value="$PROJECT_DIR$/businessModule/video" />
             <option value="$PROJECT_DIR$/frame-api" />
           </set>
         </option>

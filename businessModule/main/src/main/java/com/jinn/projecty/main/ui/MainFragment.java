@@ -14,6 +14,7 @@ import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.main.constant.Constant;
 import com.jinn.projecty.main.model.MainViewModel;
 import com.jinn.projecty.main.model.ViewModelFactory;
+import com.jinn.projecty.main.ui.widget.SimpleItemDecoration;
 import com.jinn.projecty.utils.LogUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -27,6 +28,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ConcatAdapter;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,6 +68,7 @@ public class MainFragment extends BaseFragment<MainViewModel> implements Lifecyc
         getLifecycle().addObserver(mViewModel);
         mRecycleView = view.findViewById(R.id.main_recycle_view);
         mRefreshLayout = view.findViewById(R.id.main_refresh_layout);
+       // new PagerSnapHelper(PagerSnapHelper.GRAVITY_START).attachToRecyclerView(mRecycleView);
         mViewModel.getLiveDataShowLoading().postValue(true);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //合并adapter
@@ -73,7 +76,9 @@ public class MainFragment extends BaseFragment<MainViewModel> implements Lifecyc
         MainAdapter adapter2 = new MainAdapter(getActivity());
         ConcatAdapter concatAdapter = new ConcatAdapter(adapter1,adapter2);
         mRecycleView.setAdapter(concatAdapter);
-
+        mRecycleView.addItemDecoration(new SimpleItemDecoration(getActivity()));
+        mRecycleView.setItemAnimator(new DefaultItemAnimator());
+        mRecycleView.getItemAnimator().setRemoveDuration(500);
         mViewModel.getVideoLists().observe(this, new Observer<RecommandDataBean>() {
             @Override
             public void onChanged(RecommandDataBean bean) {
