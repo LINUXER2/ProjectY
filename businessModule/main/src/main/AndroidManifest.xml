@@ -17,7 +17,7 @@
            </intent-filter>
         </service>
 
-        <activity android:name=".ui.VideoDetailActivity" />
+        <activity android:name=".ui.NewsLandingActivity" />
         <activity android:name=".ui.MainActivity" />
 
         <service

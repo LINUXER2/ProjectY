@@ -33,10 +33,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if(modelClass.isAssignableFrom(MainViewModel.class)){
-            return (T)new MainViewModel(mApplication,new MainModel());
-        }else if(modelClass.isAssignableFrom(VideoDetailViewModel.class)){
-            return (T)new VideoDetailViewModel(mApplication,new VideoDetailModel());
+        if(modelClass.isAssignableFrom(NewsViewModel.class)){
+            return (T)new NewsViewModel(mApplication,new NewsModel());
+        }else if(modelClass.isAssignableFrom(NewsLandingViewModel.class)){
+            return (T)new NewsLandingViewModel(mApplication,new NewsLandingModel());
         }else {
             throw new IllegalArgumentException("unknow viewModel:"+modelClass.getName());
         }

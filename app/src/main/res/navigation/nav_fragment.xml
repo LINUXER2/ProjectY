@@ -13,6 +13,6 @@
     </fragment>
 
     <fragment android:id = "@+id/nav_mine"
-        android:name="com.jinn.projecty.main.ui.MainFragment">
+        android:name="com.jinn.projecty.main.ui.NewsFragment">
     </fragment>
 </navigation>

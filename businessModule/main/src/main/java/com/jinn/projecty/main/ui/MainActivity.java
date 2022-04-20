@@ -21,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
+                    .replace(R.id.container, NewsFragment.newInstance(bundle))
                     .commitNow();
         }
         initViews();

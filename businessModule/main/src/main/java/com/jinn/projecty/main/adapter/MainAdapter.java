@@ -2,7 +2,6 @@ package com.jinn.projecty.main.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.bean.RecommandDataBean;
-import com.jinn.projecty.main.constant.Constant;
 import com.jinn.projecty.utils.LogUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -68,7 +65,7 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
     @Override
     public ViewHolderVideo onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LogUtils.d(TAG,"onCreateViewHolder:viewType:"+viewType);
-        View viewVideo = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_video,parent,false);
+        View viewVideo = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item_video,parent,false);
         ViewHolderVideo viewHolderVideo;
         viewHolderVideo = new ViewHolderVideo(viewVideo);
         return viewHolderVideo;
@@ -91,7 +88,7 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
     @Override
     public int getItemViewType(int position) {
         super.getItemViewType(position);
-        return R.layout.main_item_video;
+        return R.layout.news_item_video;
     }
 
     @Override

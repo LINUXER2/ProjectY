@@ -1,7 +1,6 @@
 package com.jinn.projecty.main.adapter;
 
 import android.app.Activity;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.bean.RecommandDataBean;
-import com.jinn.projecty.main.constant.Constant;
 import com.jinn.projecty.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -20,8 +18,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.AsyncDifferConfig;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,7 +63,7 @@ public class BannerAdapter extends ListAdapter<RecommandDataBean.IssueListBean.I
     @NonNull
     @Override
     public ViewHolderBanner onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_banner,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item_banner,parent,false);
         return new ViewHolderBanner(itemView);
     }
 
@@ -89,7 +85,7 @@ public class BannerAdapter extends ListAdapter<RecommandDataBean.IssueListBean.I
 
     @Override
     public int getItemViewType(int position) {
-        return R.layout.main_item_banner;
+        return R.layout.news_item_banner;
     }
 
     public class ViewHolderBanner extends RecyclerView.ViewHolder{
