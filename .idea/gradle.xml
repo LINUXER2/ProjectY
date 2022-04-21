@@ -20,12 +20,12 @@
             <option value="$PROJECT_DIR$/baseModule/widgets" />
             <option value="$PROJECT_DIR$/businessModule" />
             <option value="$PROJECT_DIR$/businessModule/main" />
+            <option value="$PROJECT_DIR$/businessModule/settings" />
             <option value="$PROJECT_DIR$/businessModule/video" />
             <option value="$PROJECT_DIR$/frame-api" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
-        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>

@@ -9,8 +9,10 @@
 /.idea/assetWizardSettings.xml
 /.idea/runConfigurations.xml
 /.idea/misc.xml
+/.idea
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
+temp

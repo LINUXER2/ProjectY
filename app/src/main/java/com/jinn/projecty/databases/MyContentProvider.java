@@ -9,9 +9,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDiskIOException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.jinn.projecty.BuildConfig;
+import com.jinn.projecty.utils.AssetUtils;
 import com.jinn.projecty.utils.LogUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyContentProvider extends ContentProvider {
 
@@ -149,6 +155,7 @@ public class MyContentProvider extends ContentProvider {
             LogUtils.d(TAG, "onCreate,start init db,"+Thread.currentThread().getName());
             //该方法在数据库首次创建时调用，即第1次调用 getWritableDatabase（） / getReadableDatabase（）时，运行在main进程
             createDatabases(db);
+            loadDefaultConfig(db);
         }
 
         @Override
@@ -161,6 +168,27 @@ public class MyContentProvider extends ContentProvider {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DB_TABLE_USER + " (_id INTEGER PRIMARY KEY,name TEXT,sex TEXT ,age INTEGER DEFAULT 10)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DB_TABLE_GOODS + " (_id INTEGER PRIMARY KEY,type TEXT)");
+    }
+
+    private void loadDefaultConfig(SQLiteDatabase db){
+         String defaultJson = AssetUtils.getFromAsset(mDBHelper.mContext,"default_db_config.json");
+         LogUtils.d(TAG,"loadDefaultConfig:"+defaultJson);
+         if(!TextUtils.isEmpty(defaultJson)){
+             try {
+                 JSONArray jsonArray = new JSONArray(defaultJson);
+                 ContentValues values = new ContentValues();
+                 for(int i =0;i<jsonArray.length();i++){
+                     values.clear();
+                     JSONObject object =  jsonArray.getJSONObject(i);
+                     values.put(DB_COLUMN_USER_NAME,object.optString(DB_COLUMN_USER_NAME));
+                     values.put(DB_COLUMN_USER_AGE,object.optString(DB_COLUMN_USER_AGE));
+                     values.put(DB_COLUMN_USER_SEX,object.optString(DB_COLUMN_USER_SEX));
+                     db.insert(DB_TABLE_USER,null,values);
+                 }
+             }catch (JSONException e){
+                 LogUtils.e(TAG,"loadDefaultConfig,error,"+e.toString());
+             }
+         }
     }
 
     /**

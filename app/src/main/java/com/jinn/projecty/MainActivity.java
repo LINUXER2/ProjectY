@@ -1,9 +1,13 @@
 package com.jinn.projecty;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jinn.projecty.databases.MyContentProvider;
+import com.jinn.projecty.utils.HeavyWorkThread;
 import com.jinn.projecty.utils.LogUtils;
 
 import androidx.annotation.NonNull;
@@ -38,7 +42,30 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment  navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         mNavControl = NavHostFragment.findNavController(navHostFragment);
         NavigationUI.setupWithNavController(navigationView,mNavControl);  //将navigation 与 control绑定
+    }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TestQueryData();
+    }
+
+    private void TestQueryData(){
+        HeavyWorkThread.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                ContentResolver resolver = getContentResolver();
+                Cursor cursor = resolver.query(MyContentProvider.USER,new String[]{MyContentProvider.DB_COLUMN_USER_AGE,MyContentProvider.DB_COLUMN_USER_NAME},null,null,MyContentProvider.DB_COLUMN_USER_AGE+" DESC");
+                if(cursor!=null && cursor.getCount()>0){
+                    int nameIndex = cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME);
+                    while (cursor.moveToNext()){
+                        String name = cursor.getString(nameIndex);
+                        LogUtils.d(TAG,"query user:"+name);
+                    }
+                }
+            }
+        });
     }
 
 }
