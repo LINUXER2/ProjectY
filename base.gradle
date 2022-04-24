@@ -1,0 +1,80 @@
+ext {
+    loadLibs = this.&loadLibs
+    loadBusinessApi = this.&loadBusinessApi
+    loadRes = this.&loadRes
+    loadWidgets = this.&loadWidgets
+    loadKotlin = this.&loadKotlin
+    loadLibsByApi = this.&loadLibsByApi
+}
+
+def loadLibs(String libName) {
+    def libPath = rootProject.ext.dependencies."$libName"
+    println("加载lib==> " + libPath)
+    if (libPath.contains("\\") || libPath.contains("/")) {
+        load files(libPath)
+        println("loadLib==>" + libPath)
+    } else {
+        load(libPath)
+        println("loadpublicStore==>" + libPath)
+    }
+}
+
+def loadLibsByApi(String libName) {
+    def libPath = rootProject.ext.dependencies."$libName"
+    println("加载lib==> " + libPath)
+    if (libPath.contains("\\") || libPath.contains("/")) {
+        loadByApi files(libPath)
+        println("loadLib==>" + libPath)
+    } else {
+        loadByApi(libPath)
+        println("loadpublicStore==>" + libPath)
+    }
+}
+
+def load(lib) {
+    if(!rootProject.ext.hasProperty("hasLoadLibs")) {
+        rootProject.ext.hasLoadLibs = new ArrayList<>()
+    }
+
+    if(rootProject.hasLoadLibs.contains(lib)) {
+        dependencies.compileOnly lib
+    } else {
+        println("打包到APK by implementation==>" + lib)
+        dependencies.implementation lib
+        rootProject.hasLoadLibs.add(lib)
+    }
+}
+
+def loadByApi(lib) {
+    if(!rootProject.ext.hasProperty("hasLoadLibs")) {
+        rootProject.ext.hasLoadLibs = new ArrayList<>()
+    }
+
+    if(rootProject.hasLoadLibs.contains(lib)) {
+        dependencies.compileOnly lib
+    } else {
+        println("打包到APK by api==>" + lib)
+        dependencies.api lib
+        rootProject.hasLoadLibs.add(lib)
+    }
+}
+
+def loadBusinessApi() {
+    dependencies.compileOnly project(":business:api:" + project.name + "-api")
+}
+
+def loadKotlin() {
+    loadLibs("kotlin_core")
+    loadLibs("kotlin")
+    loadLibs("kotlin_coroutine")
+    loadLibs("kotlin_coroutine_android")
+    loadLibs("kotlin_reflect")
+}
+
+def loadRes() {
+    dependencies.implementation project(':base:res')
+}
+
+def loadWidgets() {
+    dependencies.implementation project(':base:widgets')
+}
