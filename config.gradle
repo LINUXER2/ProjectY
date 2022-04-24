@@ -13,16 +13,29 @@ ext {
 
     //統一管理各module引入的sdk
     dependencies =[
+
+            //kotlin
             kotlin_core                  : "androidx.core:core-ktx:1.7.0", // kotlin核心库
             kotlin                       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version", //kotlin
+            // 协程
             kotlin_coroutine             : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_version", //协程核心库
             kotlin_coroutine_android     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_version", //协程android库
             kotlin_reflect               : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version", //kotlin_reflect
 
-            material                     : "com.google.android.material:material:1.5.0",       //material
-            navigation_fragment          : 'androidx.navigation:navigation-fragment:2.3.5',   //navigation_fragment
-            navigation_ui                : "androidx.navigation:navigation-ui:2.3.5",   //navigation_ui
+            //material-design
+            material                     : "com.google.android.material:material:1.5.0",
 
+            //navigation
+            navigation_fragment          : 'androidx.navigation:navigation-fragment:2.3.5',
+            navigation_ui                : "androidx.navigation:navigation-ui:2.3.5",
+
+            //room
+            room_runtime                 : 'androidx.room:room-runtime:2.3.0',
+            room_common                  : 'androidx.room:room-common:2.3.0',
+            room_ktx                     : 'androidx.room:room-ktx:2.3.0',
+            room_compiler                : 'androidx.room:room-compiler:2.3.0',
+
+            //other
             converter_gson               : 'com.squareup.retrofit2:converter-gson:2.9.0',
             adapter_rxjava2              : 'com.squareup.retrofit2:adapter-rxjava2:2.9.0',
             logging_interceptor          : 'com.squareup.okhttp3:logging-interceptor:3.4.1'

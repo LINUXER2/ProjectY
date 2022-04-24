@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/baseModule" />
             <option value="$PROJECT_DIR$/baseModule/base" />
+            <option value="$PROJECT_DIR$/baseModule/databases" />
             <option value="$PROJECT_DIR$/baseModule/network" />
             <option value="$PROJECT_DIR$/baseModule/res" />
             <option value="$PROJECT_DIR$/baseModule/utils" />

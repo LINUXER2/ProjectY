@@ -9,3 +9,4 @@ include ':app',
         'businessModule:main'
 rootProject.name='ProjectY'
 include ':businessModule:settings'
+include ':baseModule:databases'

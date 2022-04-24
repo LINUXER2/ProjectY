@@ -32,6 +32,7 @@ dependencies {
     implementation rootProject.ext.dependencies.navigation_fragment
     implementation rootProject.ext.dependencies.navigation_ui
     implementation project(path: ':businessModule:video')
+    implementation project(path: ':businessModule:settings')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

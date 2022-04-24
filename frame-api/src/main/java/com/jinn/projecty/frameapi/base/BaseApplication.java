@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class BaseApplication extends Application implements IApplicationInterface {
     private static final String TAG = "BaseApplication";
     private ArrayList<IApplicationInterface> mModuleApplications =new ArrayList<>();
-
+    public static Application sInstance;
 
     public BaseApplication() {
         super();
@@ -89,6 +89,7 @@ public class BaseApplication extends Application implements IApplicationInterfac
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
         LogUtils.d(TAG,"BaseApplication,onCreate");
         for(IApplicationInterface application : mModuleApplications){
             application.onCreate();

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 apply from: "$rootProject.baseGradle"
 
@@ -13,7 +14,6 @@ android {
         targetSdkVersion 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -38,14 +38,15 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation project(path: ':baseModule:databases')
-    implementation "$rootProject.ext.dependencies.material"
-    implementation "$rootProject.ext.dependencies.kotlin_coroutine"
-    implementation "$rootProject.ext.dependencies.kotlin_coroutine_android"
-    implementation project(path: ':baseModule:utils')
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation project(path: ':frame-api')
+    implementation project(path: ':baseModule:base')
+
+    api "$rootProject.ext.dependencies.room_runtime"
+    api "$rootProject.ext.dependencies.room_common"
+    api "$rootProject.ext.dependencies.room_ktx"
+    kapt "$rootProject.ext.dependencies.room_compiler"
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
