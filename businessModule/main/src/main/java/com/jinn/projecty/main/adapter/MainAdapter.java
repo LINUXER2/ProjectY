@@ -107,7 +107,7 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
             LogUtils.d(TAG, "onClick,name:" + v.getTransitionName());
             Pair pair = new Pair(v, "IMG_TRANSITION");
             ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, pair);
-            intent.setClassName("com.jinn.projecty", "com.jinn.projecty.main.ui.VideoDetailActivity");
+            intent.setClassName("com.jinn.projecty", "com.jinn.projecty.main.ui.NewsLandingActivity");
             intent.putExtra("url", v.getTransitionName());
             ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
         }

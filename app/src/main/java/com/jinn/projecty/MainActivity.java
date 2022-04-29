@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jinn.projecty.databases.MyContentProvider;
@@ -28,8 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //不生效，因为继承的是AppCompatActivity
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        getSupportActionBar().hide();
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
