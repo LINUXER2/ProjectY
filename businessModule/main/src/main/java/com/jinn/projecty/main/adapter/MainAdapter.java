@@ -108,7 +108,9 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
             Pair pair = new Pair(v, "IMG_TRANSITION");
             ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, pair);
             intent.setClassName("com.jinn.projecty", "com.jinn.projecty.main.ui.NewsLandingActivity");
-            intent.putExtra("url", v.getTransitionName());
+            intent.putExtra("img_url", v.getTransitionName());
+            intent.putExtra("video_url",mLists.get(pos).getData().getPlayUrl());
+            intent.putExtra("news_url",mLists.get(pos).getData().getWebUrl().getRaw());
             ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
         }
     }

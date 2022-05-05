@@ -35,10 +35,15 @@ ext {
             room_ktx                     : 'androidx.room:room-ktx:2.3.0',
             room_compiler                : 'androidx.room:room-compiler:2.3.0',
 
+            //video
+            gsyPlayer                    : 'com.shuyu:GSYVideoPlayer:7.0.1',
+            playerBase                   : 'cn.jiajunhui:exoplayer:342_2132_019',
+
             //other
             converter_gson               : 'com.squareup.retrofit2:converter-gson:2.9.0',
             adapter_rxjava2              : 'com.squareup.retrofit2:adapter-rxjava2:2.9.0',
             logging_interceptor          : 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
     ]
 
 }
