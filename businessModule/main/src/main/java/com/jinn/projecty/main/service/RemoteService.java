@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Process;
 import android.os.RemoteException;
 
 import com.jinn.projecty.utils.HeavyWorkThread;
@@ -35,6 +36,9 @@ public class RemoteService extends Service {
                     }catch (Exception e){
                        LogUtils.e(TAG,"reply to client error:"+e.toString());
                     }
+                    break;
+                case 2:
+                    Process.killProcess(Process.myPid());
                     break;
                 default:
                     break;

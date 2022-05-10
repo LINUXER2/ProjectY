@@ -8,6 +8,8 @@ import android.util.Log;
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
 import com.jinn.projecty.frameapi.service.ServiceManager;
 import com.jinn.projecty.utils.LogUtils;
+import com.jinn.projecty.utils.NetWorkManager;
+import com.jinn.projecty.utils.ProcessUtils;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -29,8 +31,11 @@ public class BaseApplication extends Application implements IApplicationInterfac
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         LogUtils.d(TAG,"BaseApplication,attachBaseContext");
-        createApplications(base);
-        createServices(base);
+        if(ProcessUtils.isInMainProcess(base)){  // 子进程启动也会走
+            createApplications(base);
+            createServices(base);
+            NetWorkManager.getInstance(base).registerNetListener();
+        }
     }
 
 

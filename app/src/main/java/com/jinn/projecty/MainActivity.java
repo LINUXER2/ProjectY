@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jinn.projecty.databases.MyAsyncQueryHandler;
 import com.jinn.projecty.databases.MyContentProvider;
 import com.jinn.projecty.utils.HeavyWorkThread;
 import com.jinn.projecty.utils.LogUtils;
@@ -70,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //AsyncQueryHandler是一个异步的查询操作帮助类，可以处理增删改ContentProvider提供的数据并在主线程回调查询结果
+        MyAsyncQueryHandler queryHandler = new MyAsyncQueryHandler(getContentResolver());
+        queryHandler.startQuery(0,null,MyContentProvider.USER,new String[]{MyContentProvider.DB_COLUMN_USER_AGE,MyContentProvider.DB_COLUMN_USER_NAME},null,null,MyContentProvider.DB_COLUMN_USER_AGE+" DESC");
     }
 
 }
