@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jinn.projecty.settings">
+    <application>
+        <service android:name=".server.AidlService"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.jinn.projecty.AidlService"></action>
+            </intent-filter>
+        </service>
 
+        <service
+            android:name="com.jinn.projecty.settings.server.RemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":service">
+            <intent-filter>
+                <action android:name="com.jinn.projecty.remoteservice" />
+            </intent-filter>
+        </service>
+
+    </application>
 </manifest>

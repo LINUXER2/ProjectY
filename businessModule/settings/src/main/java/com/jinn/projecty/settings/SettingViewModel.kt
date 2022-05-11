@@ -1,6 +1,11 @@
 package com.jinn.projecty.settings
 
 import android.app.Application
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
 import android.os.SystemClock
 import androidx.lifecycle.*
 import com.jinn.projecty.databases.AppDatabase
@@ -22,12 +27,11 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         mStudentDao.insert(StudentEntity("張三"+SystemClock.elapsedRealtime(),"男",18))
     }
 
-    fun getStudentDataFromDb(lifecycleOwner: LifecycleOwner){
-         mStudentDao.queryAllByLiveData().observe(lifecycleOwner,{items->
-            LogUtils.d(TAG,"observe:${items.size}")
-           mStudentListLiveData.postValue(items)
-         })
-
+    /**
+     * 监听数据变化
+     */
+    fun queryAll():LiveData<List<StudentEntity>>{
+        return mStudentDao.queryAllByLiveData()
     }
 
 

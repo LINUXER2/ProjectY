@@ -1,4 +1,4 @@
-package com.jinn.projecty.main.service;
+package com.jinn.projecty.settings.server;
 
 import android.app.Service;
 import android.content.Intent;

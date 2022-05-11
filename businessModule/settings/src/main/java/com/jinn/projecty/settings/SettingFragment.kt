@@ -1,13 +1,13 @@
 package com.jinn.projecty.settings
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.lifecycle.ViewModelStore
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.jinn.projecty.settings.client.AidlClientManager
+import com.jinn.projecty.settings.client.MessengerClientManager
 import com.jinn.projecty.settings.databinding.SettingFragmentBinding
 import com.jinn.projecty.utils.LogUtils
 import kotlinx.coroutines.*
@@ -32,24 +32,41 @@ class SettingFragment : Fragment() ,CoroutineScope by MainScope(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       val button = view.findViewById<Button>(R.id.button1)
-        button.setOnClickListener {
-            launch(Dispatchers.IO) {
-                LogUtils.d(TAG,"insert");
-                viewModel.insertData()
-            }
-        }
+        initView()
     }
 
     @DelicateCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[SettingViewModel::class.java]
-        viewModel.getStudentDataFromDb(viewLifecycleOwner)
-        viewModel.getStudentLiveData().observe(viewLifecycleOwner,{
-             LogUtils.d(TAG,"getStudentLiveData,size:${it.size}")
-        })
-
     }
+
+
+    private fun initView() {
+        mViewBinding.button1.setOnClickListener {
+            launch(Dispatchers.IO) {
+                LogUtils.d(TAG, "insert");
+                viewModel.insertData()
+            }
+        }
+
+
+        mViewBinding.button2.setOnClickListener {
+            viewModel.queryAll().observe(viewLifecycleOwner,{
+                LogUtils.d(TAG,"getStudentLiveData,size:${it.size}")
+            })
+        }
+
+        mViewBinding.button3.setOnClickListener{
+            activity?.let { it1 -> AidlClientManager.bindService(it1) }
+        }
+
+        mViewBinding.button4.setOnClickListener{
+            activity?.let { it1 ->
+                MessengerClientManager.getInstance(it1).sendMessage()
+            }
+        }
+    }
+
 
 }

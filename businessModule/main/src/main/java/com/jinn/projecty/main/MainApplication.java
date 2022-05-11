@@ -2,7 +2,6 @@ package com.jinn.projecty.main;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
-import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.os.PersistableBundle;
 import com.jinn.projecty.frameapi.base.BaseApplication;
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
 import com.jinn.projecty.main.message.MyHandler;
-import com.jinn.projecty.main.model.RemoteDataManager;
 import com.jinn.projecty.main.service.JobScheduleService;
 import com.jinn.projecty.main.ui.video.ExoMediaPlayer;
 import com.jinn.projecty.utils.LogUtils;
@@ -41,8 +39,6 @@ public class MainApplication implements IApplicationInterface {
     public void onCreate() {
         LogUtils.d(TAG,"MainApplication onCreate");
         startJobService();
-        RemoteDataManager.getInstance(mContext).connectToService();
-        RemoteDataManager.getInstance(mContext).sendMessage();
         initPlayerBase();
     }
 

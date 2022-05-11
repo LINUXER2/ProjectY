@@ -1,4 +1,4 @@
-package com.jinn.projecty.main.model;
+package com.jinn.projecty.settings.client;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,24 +19,24 @@ import com.jinn.projecty.utils.LogUtils;
  * Created by jinnlee on 2022/4/14.
  */
 
-public class RemoteDataManager {
+public class MessengerClientManager {
 
-    private static RemoteDataManager sInstance;
+    private static MessengerClientManager sInstance;
     private Messenger mRemoteMessenger = null;    //向remote端发起数据
     private boolean isCollected = false;
     private Context mContext;
     private Runnable mWaitingRunnable = null;  // 当发送消息时，若service未连接，则保存该消息，待下次连接后重新发送
     private final String TAG = "RemoteDataManager";
 
-    private RemoteDataManager(Context context){
+    private MessengerClientManager(Context context){
          mContext = context;
     }
 
-    public static RemoteDataManager getInstance(Context context){
+    public static MessengerClientManager getInstance(Context context){
         if(sInstance==null){
-            synchronized (RemoteDataManager.class){
+            synchronized (MessengerClientManager.class){
                 if(sInstance==null){
-                    sInstance = new RemoteDataManager(context);
+                    sInstance = new MessengerClientManager(context);
                 }
            }
         }
@@ -44,7 +44,7 @@ public class RemoteDataManager {
     }
 
     // 接收remote端傳來的数据
-    private Messenger mClientMessenger = new Messenger(new Handler(HeavyWorkThread.getLooper()){
+    private final Messenger mClientMessenger = new Messenger(new Handler(HeavyWorkThread.getLooper()){
         @Override
         public void handleMessage(Message msg) {
             LogUtils.d(TAG,"get message from remote:"+msg.what);
@@ -53,7 +53,7 @@ public class RemoteDataManager {
         }
     });
 
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             LogUtils.d(TAG,"onServiceConnected,"+name.toString());
