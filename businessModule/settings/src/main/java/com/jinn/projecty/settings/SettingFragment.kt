@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.ViewModelStore
+import com.jinn.projecty.settings.databinding.SettingFragmentBinding
 import com.jinn.projecty.utils.LogUtils
 import kotlinx.coroutines.*
 
@@ -19,12 +20,14 @@ class SettingFragment : Fragment() ,CoroutineScope by MainScope(){
     }
 
     private lateinit var viewModel: SettingViewModel
+    private lateinit var mViewBinding:SettingFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.setting_fragment, container, false)
+        mViewBinding = SettingFragmentBinding.inflate(layoutInflater,container,false)
+        return mViewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

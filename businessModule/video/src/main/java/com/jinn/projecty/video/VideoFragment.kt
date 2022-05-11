@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jinn.projecty.video.databinding.VideoFragmentBinding
 
 class VideoFragment : Fragment() {
 
@@ -14,6 +15,7 @@ class VideoFragment : Fragment() {
     }
 
     private lateinit var viewModel: VideoViewModel
+    private lateinit var viewBinding:VideoFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

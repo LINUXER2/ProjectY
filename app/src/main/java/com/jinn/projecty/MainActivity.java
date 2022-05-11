@@ -9,6 +9,7 @@ import android.view.Window;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jinn.projecty.databases.MyAsyncQueryHandler;
 import com.jinn.projecty.databases.MyContentProvider;
+import com.jinn.projecty.databinding.HomeActivityBinding;
 import com.jinn.projecty.utils.HeavyWorkThread;
 import com.jinn.projecty.utils.LogUtils;
 
@@ -27,15 +28,17 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
     private NavController mNavControl;
     private final String TAG = "MainActivity";
+    private HomeActivityBinding mHomeActivityBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //不生效，因为继承的是AppCompatActivity
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
+        mHomeActivityBinding = HomeActivityBinding.inflate(getLayoutInflater());
+        setContentView(mHomeActivityBinding.getRoot());
         getSupportActionBar().hide();
-        navigationView = findViewById(R.id.bottom_nav);
+        navigationView = mHomeActivityBinding.bottomNav;
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

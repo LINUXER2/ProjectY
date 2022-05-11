@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.constant.Constant;
+import com.jinn.projecty.main.databinding.MainFragmentBinding;
 import com.jinn.projecty.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -41,13 +42,15 @@ public class MainFragment extends Fragment {
     private List<NewsFragment>mFragments = null;
     private ViewPager2 mViewPager=null;
     private TabLayout mTabLayout = null;
+    private MainFragmentBinding mViewBinding;
     private final String TAG ="MainFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         LogUtils.d(TAG,"onCreateView");
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        mViewBinding = MainFragmentBinding.inflate(getLayoutInflater(),container,false);
+        return mViewBinding.getRoot();
     }
 
     @Override
@@ -84,9 +87,9 @@ public class MainFragment extends Fragment {
     }
 
     private void initView(View view){
-        mViewPager = view.findViewById(R.id.main_view_pager);
+        mViewPager = mViewBinding.mainViewPager;
         mFragments = new ArrayList<NewsFragment>();
-        mTabLayout = view.findViewById(R.id.main_tab);
+        mTabLayout = mViewBinding.mainTab;
 
         // 在主线程空闲时提前加载后面的fragment
         Looper.getMainLooper().getQueue().addIdleHandler(new MessageQueue.IdleHandler() {
