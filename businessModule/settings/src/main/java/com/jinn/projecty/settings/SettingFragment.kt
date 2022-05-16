@@ -1,5 +1,6 @@
 package com.jinn.projecty.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.jinn.projecty.settings.client.AidlClientManager
 import com.jinn.projecty.settings.client.MessengerClientManager
 import com.jinn.projecty.settings.databinding.SettingFragmentBinding
+import com.jinn.projecty.settings.ui.CustomViewActivity
 import com.jinn.projecty.utils.LogUtils
 import kotlinx.coroutines.*
 
@@ -64,6 +66,14 @@ class SettingFragment : Fragment() ,CoroutineScope by MainScope(){
         mViewBinding.button4.setOnClickListener{
             activity?.let { it1 ->
                 MessengerClientManager.getInstance(it1).sendMessage()
+            }
+        }
+
+        mViewBinding.button5.setOnClickListener{
+            activity?.let { it1 ->
+                val intent = Intent()
+                intent.setClass(it1,CustomViewActivity::class.java)
+                it1.startActivity(intent)
             }
         }
     }
