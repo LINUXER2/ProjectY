@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jinn.projecty.frameapi.base.BaseApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,11 @@ fun ViewModel.launch(block: suspend CoroutineScope.() -> Unit){
  * View 扩展函数
  */
 
+/**
+ * Int 扩展函数
+ */
+val Int.resToString:String
+get() = BaseApplication.sInstance.getString(this)
 
 /**
  *  context 扩展函数
@@ -32,7 +38,7 @@ fun Context.dp2px(dipValue:Float):Int{
     return (dipValue* density+0.5f).toInt()
 }
 
-fun View.px2dp(pxValue:Float):Int{
+fun Context.px2dp(pxValue:Float):Int{
     val density = this.resources.displayMetrics.density
     return (pxValue / density + 0.5f).toInt()
 }

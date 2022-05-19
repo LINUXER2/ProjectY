@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:navGraph = "@navigation/nav_fragment"
         app:defaultNavHost="true">
+        <!--app:navGraph = "@navigation/nav_fragment"  自定义navigator-->
     </androidx.fragment.app.FragmentContainerView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

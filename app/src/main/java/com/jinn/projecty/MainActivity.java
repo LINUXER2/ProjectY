@@ -10,12 +10,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jinn.projecty.databases.MyAsyncQueryHandler;
 import com.jinn.projecty.databases.MyContentProvider;
 import com.jinn.projecty.databinding.HomeActivityBinding;
+import com.jinn.projecty.main.ui.MainFragment;
+import com.jinn.projecty.settings.SettingFragment;
 import com.jinn.projecty.utils.HeavyWorkThread;
 import com.jinn.projecty.utils.LogUtils;
+import com.jinn.projecty.video.VideoFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavGraphNavigator;
+import androidx.navigation.NavigatorProvider;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -49,7 +55,41 @@ public class MainActivity extends AppCompatActivity {
         });
         NavHostFragment  navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         mNavControl = NavHostFragment.findNavController(navHostFragment);
+        ReuseFragmentNavigator fragmentNavigator =new ReuseFragmentNavigator(this,getSupportFragmentManager(),navHostFragment.getId());
+        mNavControl.getNavigatorProvider().addNavigator(fragmentNavigator);
+        mNavControl.setGraph(initNavGraph(mNavControl.getNavigatorProvider(),fragmentNavigator));
         NavigationUI.setupWithNavController(navigationView,mNavControl);  //将navigation 与 control绑定
+    }
+
+    /**
+     *  自定义导航器
+     * @param provider
+     * @param fragmentNavigator
+     * @return
+     */
+    private NavGraph initNavGraph(NavigatorProvider provider, ReuseFragmentNavigator fragmentNavigator) {
+        NavGraph navGraph = new NavGraph(new NavGraphNavigator(provider));
+
+        //用自定义的导航器来创建目的地
+        FragmentNavigator.Destination destination1 = fragmentNavigator.createDestination();
+        destination1.setId(R.id.nav_main);
+        destination1.setClassName(MainFragment.class.getCanonicalName());
+        navGraph.addDestination(destination1);
+
+
+        FragmentNavigator.Destination destination2 = fragmentNavigator.createDestination();
+        destination2.setId(R.id.nav_video);
+        destination2.setClassName(VideoFragment.class.getCanonicalName());
+        navGraph.addDestination(destination2);
+
+        FragmentNavigator.Destination destination3 = fragmentNavigator.createDestination();
+        destination3.setId(R.id.nav_mine);
+        destination3.setClassName(SettingFragment.class.getCanonicalName());
+        navGraph.addDestination(destination3);
+
+        navGraph.setStartDestination(destination1.getId());
+
+        return navGraph;
     }
 
 
