@@ -61,6 +61,11 @@ public class MainFragment extends Fragment {
         initView(view);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        LogUtils.d(TAG,"setUserVisibleHint,isVisibleToUser:"+isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {

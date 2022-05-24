@@ -53,7 +53,7 @@ public class CustomRoundImageView extends ImageView {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.custom_round_iv);
-        radius = array.getDimensionPixelOffset(R.styleable.custom_round_iv_radius, defaultRadius);
+        radius = array.getDimensionPixelOffset(R.styleable.custom_round_iv_radius_all, defaultRadius);
         leftTopRadius = array.getDimensionPixelOffset(R.styleable.custom_round_iv_radius_left_top, defaultRadius);
         rightTopRadius = array.getDimensionPixelOffset(R.styleable.custom_round_iv_radius_right_top, defaultRadius);
         rightBottomRadius = array.getDimensionPixelOffset(R.styleable.custom_round_iv_radius_right_bottom, defaultRadius);

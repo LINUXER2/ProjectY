@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.utils.LogUtils;
+import com.jinn.projecty.widgets.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +72,19 @@ public class BannerAdapter extends ListAdapter<RecommandDataBean.IssueListBean.I
     public void onBindViewHolder(@NonNull ViewHolderBanner holder, int position) {
         String newsTitle = mLists.get(position).getData().getTitle();
         String newsImageUrl = mLists.get(position).getData().getImage();
+        List<String>imgs = new ArrayList<>();
+        imgs.add(newsImageUrl);
+        imgs.add(newsImageUrl);
+        imgs.add(newsImageUrl);
+        imgs.add(newsImageUrl);
+        imgs.add(newsImageUrl);
+        imgs.add(newsImageUrl);
+        imgs.add(newsImageUrl);
+        holder.banner.setBannerImages(mActivity, imgs);
+        holder.banner.start();
+        holder.banner.startAutoPlay();
         LogUtils.d(TAG,"onBindViewHolder:video image:"+newsImageUrl);
-        ((ViewHolderBanner) holder).mTitle.setText(newsTitle);
-        ((ViewHolderBanner) holder).mImage.setTransitionName(newsImageUrl);
-        Glide.with(mActivity).load(newsImageUrl).transition(new DrawableTransitionOptions().crossFade()).into(((ViewHolderBanner) holder).mImage);
-        ((ViewHolderBanner) holder).mImage.setTag(position);
+
     }
 
     @Override
@@ -89,13 +98,11 @@ public class BannerAdapter extends ListAdapter<RecommandDataBean.IssueListBean.I
     }
 
     public class ViewHolderBanner extends RecyclerView.ViewHolder{
-        public TextView mTitle;
-        public ImageView mImage;
+        public Banner banner;
 
         public ViewHolderBanner(View itemView) {
             super(itemView);
-            mTitle = itemView.findViewById(R.id.news_title);
-            mImage=itemView.findViewById(R.id.news_image);
+            banner = itemView.findViewById(R.id.banner);
         }
     }
 }

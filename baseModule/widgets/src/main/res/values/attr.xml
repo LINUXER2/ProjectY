@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="custom_round_iv">
-        <attr name="radius" format="dimension"></attr>
+        <attr name="radius_all" format="dimension"></attr>
         <attr name="radius_left_top" format="dimension"></attr>
         <attr name="radius_right_top" format="dimension"></attr>
         <attr name="radius_left_bottom" format="dimension"></attr>
         <attr name="radius_right_bottom" format="dimension"></attr>
+    </declare-styleable>
+
+    <!-- 轮播banner -->
+    <declare-styleable name="Banner">
+        <attr format="integer" name="delay_time"/>
+        <attr format="integer" name="scroll_time"/>
+        <attr format="boolean" name="is_auto_play"/>
+        <attr format="color|reference" name="title_background"/>
+        <attr format="color" name="title_textcolor"/>
+        <attr format="dimension" name="title_textsize"/>
+        <attr format="dimension" name="title_height"/>
+        <attr format="dimension" name="indicator_width"/>
+        <attr format="dimension" name="indicator_height"/>
+        <attr format="dimension" name="indicator_margin"/>
+        <attr format="reference" name="indicator_drawable_selected"/>
+        <attr format="reference" name="indicator_drawable_unselected"/>
+        <attr format="reference" name="banner_layout"/>
+        <attr format="reference" name="banner_default_image"/>
+        <attr format="enum" name="image_scale_type">
+            <enum name="center" value="0"/>
+            <enum name="center_crop" value="1"/>
+            <enum name="center_inside" value="2"/>
+            <enum name="fit_center" value="3"/>
+            <enum name="fit_end" value="4"/>
+            <enum name="fit_start" value="5"/>
+            <enum name="fit_xy" value="6"/>
+            <enum name="matrix" value="7"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="Custom_Round_Image_View">
+        <attr name="radius" format="dimension" />
+        <attr name="left_top_radius" format="dimension" />
+        <attr name="right_top_radius" format="dimension" />
+        <attr name="right_bottom_radius" format="dimension" />
+        <attr name="left_bottom_radius" format="dimension" />
+    </declare-styleable>
+    <!--自定义宽高比布局属性-->
+    <declare-styleable name="RatioLayout">
+        <attr name="ratio_w2h" format="string" />
+        <attr name="ratio_offset" format="dimension" />
+    </declare-styleable>
+
+    <!--  自定义带边框的imageview  -->
+    <declare-styleable name="NewsBorderImageView">
+        <attr format="dimension" name="news_border_radius_left_top"/>
+        <attr format="dimension" name="news_border_radius_right_top"/>
+        <attr format="dimension" name="news_border_radius_left_bottom"/>
+        <attr format="dimension" name="news_border_radius_right_bottom"/>
+        <attr format="color" name="news_border_color"/>
+        <attr format="dimension" name="news_border_width"/>
+        <attr format="boolean" name="news_image_need_clip"/>
+        <attr format="enum" name="news_border_style">
+            <enum name="normal" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+            <enum name="center" value="3"/>
+        </attr>
     </declare-styleable>
 </resources>

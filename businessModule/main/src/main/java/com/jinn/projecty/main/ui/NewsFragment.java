@@ -70,6 +70,12 @@ public class NewsFragment extends BaseFragment<NewsViewModel> implements Lifecyc
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        LogUtils.d(TAG,"setUserVisibleHint,"+mTabName+",isVisibleToUser:"+isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
     public void onResume() {
         LogUtils.d(TAG,"onResume,"+mTabName);
         super.onResume();
