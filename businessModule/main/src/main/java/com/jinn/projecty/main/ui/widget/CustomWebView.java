@@ -11,7 +11,7 @@ import com.jinn.projecty.main.BuildConfig;
 
 public class CustomWebView extends WebView {
     public CustomWebView(Context context) {
-        super(context);
+        this(context,null);
     }
 
     public CustomWebView(Context context, AttributeSet attrs) {

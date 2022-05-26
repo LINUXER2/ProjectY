@@ -11,6 +11,7 @@ import android.os.PersistableBundle;
 
 import com.jinn.projecty.frameapi.base.BaseApplication;
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
+import com.jinn.projecty.main.manager.WebViewPreloadHelper;
 import com.jinn.projecty.main.message.MyHandler;
 import com.jinn.projecty.main.service.JobScheduleService;
 import com.jinn.projecty.main.ui.video.ExoMediaPlayer;
@@ -40,6 +41,7 @@ public class MainApplication implements IApplicationInterface {
         LogUtils.d(TAG,"MainApplication onCreate");
         startJobService();
         initPlayerBase();
+        WebViewPreloadHelper.INSTANCE.prepareWebView();
     }
 
     private void initPlayerBase(){

@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -17,6 +18,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
@@ -28,6 +30,7 @@ import com.bumptech.glide.request.target.Target;
 import com.jinn.projecty.base.BaseFragmentActivity;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.js.CommonNewsJsInterface;
+import com.jinn.projecty.main.manager.WebViewPreloadHelper;
 import com.jinn.projecty.main.model.NewsLandingViewModel;
 import com.jinn.projecty.main.model.ViewModelFactory;
 import com.jinn.projecty.main.ui.widget.CustomWebView;
@@ -45,6 +48,7 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
     private Context mContext;
     private String mVideoUrl;
     private String mNewsUrl;
+    private FrameLayout mWebContainerLayout;
     private CustomWebView mWebView;
     private final String TAG ="NewsLandingActivity";
 
@@ -59,10 +63,9 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         mContext = this;
         Intent intent = getIntent();
-        mImgUrl = intent.getExtras().getString("img_url");
         mVideoUrl = intent.getExtras().getString("video_url");
         mNewsUrl = intent.getExtras().getString("news_url");
-        LogUtils.d(TAG,"onCreate:img:"+mImgUrl+",video:"+mVideoUrl);
+        LogUtils.d(TAG,"onCreate,mNewsUrl:"+mNewsUrl);
         super.onCreate(savedInstanceState);
     }
 
@@ -73,7 +76,9 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
 
     @Override
     protected void initView(View view) {
-        mWebView = findViewById(R.id.webview);
+        mWebContainerLayout = view.findViewById(R.id.web_container);
+        mWebView = WebViewPreloadHelper.INSTANCE.acquireWebView(this);
+        mWebContainerLayout.addView(mWebView, FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
         loadWebView();
     }
 
@@ -140,6 +145,7 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        WebViewPreloadHelper.INSTANCE.prepareWebView();
     }
 
     @Override

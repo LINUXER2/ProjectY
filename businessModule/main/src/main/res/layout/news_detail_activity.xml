@@ -5,10 +5,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <com.jinn.projecty.main.ui.widget.CustomWebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.jinn.projecty.main.ui.widget.CustomWebView>
+   <FrameLayout
+      android:id="@+id/web_container"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+   </FrameLayout>
 </LinearLayout>
