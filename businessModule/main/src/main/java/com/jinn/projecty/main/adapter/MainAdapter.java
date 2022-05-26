@@ -111,7 +111,8 @@ public class MainAdapter extends ListAdapter<RecommandDataBean.IssueListBean.Ite
             intent.putExtra("img_url", v.getTransitionName());
             intent.putExtra("video_url",mLists.get(pos).getData().getPlayUrl());
             intent.putExtra("news_url",mLists.get(pos).getData().getWebUrl().getRaw());
-            ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
+           // ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
+            mActivity.startActivity(intent);
         }
     }
 

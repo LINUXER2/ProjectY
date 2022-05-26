@@ -6,51 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <SurfaceView
-            android:id="@+id/media_player"
-            android:layout_width="match_parent"
-            android:layout_height="230dp">
-        </SurfaceView>
-
-        <ImageView
-            android:id="@+id/image_view"
-            android:src="@drawable/img_def"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="230dp">
-        </ImageView>
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <SeekBar
-            android:id="@+id/seek_bar"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </SeekBar>
-
-        <Button
-            android:id="@+id/play"
-            android:text="Play"
-            android:layout_width="80dp"
-            android:layout_height="40dp">
-        </Button>
-
-        <Button
-            android:id="@+id/pause"
-            android:text="Pause"
-            android:layout_width="80dp"
-            android:layout_height="40dp">
-        </Button>
-    </LinearLayout>
-
     <com.jinn.projecty.main.ui.widget.CustomWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"

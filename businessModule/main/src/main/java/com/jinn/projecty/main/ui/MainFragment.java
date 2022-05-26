@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.jinn.projecty.main.R;
 import com.jinn.projecty.main.constant.Constant;
 import com.jinn.projecty.main.databinding.MainFragmentBinding;
+import com.jinn.projecty.main.model.MainFragmentViewModel;
 import com.jinn.projecty.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -22,10 +23,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -33,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MainFragment extends Fragment {
 
-    private MainViewModel mViewModel;
+    private MainFragmentViewModel mViewModel;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -57,7 +55,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         LogUtils.d(TAG,"onViewCreated");
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
         initView(view);
     }
 
