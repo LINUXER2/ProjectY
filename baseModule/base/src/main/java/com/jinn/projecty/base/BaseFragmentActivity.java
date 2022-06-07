@@ -21,8 +21,8 @@ import androidx.lifecycle.ViewModelProvider;
  */
 public abstract class BaseFragmentActivity<VM extends BaseViewModel> extends FragmentActivity {
 
-    private VM mViewModel;
-    private ViewStub mViewStubLoading = null;
+    protected VM mViewModel;
+    protected ViewStub mViewStubLoading = null;
     private ViewStub mViewStubError = null;
     private View mLoadingView;
     private View mErrorView;
@@ -46,9 +46,9 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel> extends Fra
         contentLayout.removeAllViews();
         View view = LayoutInflater.from(this).inflate(getLayoutId(),contentLayout,false);
         contentLayout.addView(view);
-        initView(view);
         mViewStubLoading =findViewById(R.id.base_loading_conent);
         mViewStubError = findViewById(R.id.base_error_conent);
+        initView(view);
     }
 
     private void initBaseObservable(){
@@ -56,6 +56,7 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel> extends Fra
             @Override
             public void onChanged(Boolean showLoading) {
                 LogUtils.d(TAG,"LiveDataShowLoading changed:"+showLoading);
+                updateLoadingView(showLoading);
             }
         });
 
@@ -63,9 +64,24 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel> extends Fra
             @Override
             public void onChanged(Boolean showError) {
                 LogUtils.d(TAG,"LiveDataShowError changed:"+showError);
+                updateErrorView(showError);
             }
         });
 
+    }
+
+    private void updateLoadingView(boolean show){
+        if(mLoadingView==null){
+             mLoadingView = mViewStubLoading.inflate();
+        }
+        mLoadingView.setVisibility(show?View.VISIBLE:View.GONE);
+    }
+
+    private void updateErrorView(boolean show){
+        if(mErrorView==null){
+            mErrorView = mViewStubError.inflate();
+        }
+        mErrorView.setVisibility(show?View.VISIBLE:View.GONE);
     }
 
     protected abstract ViewModelProvider.Factory onBindViewModelFactory();

@@ -67,6 +67,7 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
         mNewsUrl = intent.getExtras().getString("news_url");
         LogUtils.d(TAG,"onCreate,mNewsUrl:"+mNewsUrl);
         super.onCreate(savedInstanceState);
+        mViewModel.getLiveDataShowLoading().postValue(true);
     }
 
     @Override
@@ -79,6 +80,7 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
         mWebContainerLayout = view.findViewById(R.id.web_container);
         mWebView = WebViewPreloadHelper.INSTANCE.acquireWebView(this);
         mWebContainerLayout.addView(mWebView, FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
+        mViewStubLoading.setLayoutResource(R.layout.news_detail_loading_layout);
         loadWebView();
     }
 
@@ -105,6 +107,12 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
         @Override
         public void onPageFinished(WebView view, String url) {
             LogUtils.d(TAG,"onPageFinished");
+            mWebView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mViewModel.getLiveDataShowLoading().postValue(false);
+                }
+            },200);
             //注入一段js，监控webview加载性能
             mWebView.evaluateJavascript("javascript:if(window.performance){window.performance.timing.toJSON()}", new ValueCallback<String>() {
                 @Override

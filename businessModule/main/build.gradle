@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
   //  implementation '$rootProject.ext.dependencies.gsyPlayer'
     implementation "$rootProject.ext.dependencies.playerBase"
+    implementation "$rootProject.ext.dependencies.lottie"
     implementation 'com.android.support:design:28.0.0'
     implementation project(path: ':baseModule:widgets')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
