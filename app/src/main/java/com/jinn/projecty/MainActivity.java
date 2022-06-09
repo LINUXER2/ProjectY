@@ -2,6 +2,7 @@ package com.jinn.projecty;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
@@ -99,19 +100,41 @@ public class MainActivity extends AppCompatActivity {
         TestQueryData();
     }
 
+    /**
+     * 打开MainActivity，然后back键退出，多次操作后内存泄漏
+     * 原因：Android 10 上如果当前页面是taskroot，Activity源码在onBackPressed时，用handler post出去了一个消息，导致出现内存泄漏
+     */
+    public void onBackPressed() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q && isTaskRoot()) {
+            // 注意此代码与super.onBackPressed()
+            finishAfterTransition();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     private void TestQueryData(){
         HeavyWorkThread.getHandler().post(new Runnable() {
             @Override
             public void run() {
                 ContentResolver resolver = getContentResolver();
-                Cursor cursor = resolver.query(MyContentProvider.USER,new String[]{MyContentProvider.DB_COLUMN_USER_AGE,MyContentProvider.DB_COLUMN_USER_NAME},null,null,MyContentProvider.DB_COLUMN_USER_AGE+" DESC");
-                if(cursor!=null && cursor.getCount()>0){
-                    int nameIndex = cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME);
-                    while (cursor.moveToNext()){
-                        String name = cursor.getString(nameIndex);
-                        LogUtils.d(TAG,"query user:"+name);
+                Cursor cursor = null;
+                try{
+                    cursor = resolver.query(MyContentProvider.USER,new String[]{MyContentProvider.DB_COLUMN_USER_AGE,MyContentProvider.DB_COLUMN_USER_NAME},null,null,MyContentProvider.DB_COLUMN_USER_AGE+" DESC");
+                    if(cursor!=null && cursor.getCount()>0){
+                        int nameIndex = cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME);
+                        while (cursor.moveToNext()){
+                            String name = cursor.getString(nameIndex);
+                            LogUtils.d(TAG,"query user:"+name);
+                        }
                     }
+                }catch (Exception e){
+                    LogUtils.e(TAG,"error:"+e.toString());
                 }
+                if(cursor!=null){
+                    cursor.close();
+                }
+
             }
         });
 
