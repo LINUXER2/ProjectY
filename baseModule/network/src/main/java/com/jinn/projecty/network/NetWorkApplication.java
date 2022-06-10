@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import com.facebook.stetho.Stetho;
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
 
+import static com.facebook.stetho.Stetho.newInitializerBuilder;
+
 /**
  * Created by jinnlee on 2021/3/3.
  */
@@ -27,7 +29,13 @@ public class NetWorkApplication implements IApplicationInterface {
     }
 
     private void openDebugMode(){
-        Stetho.initializeWithDefaults(mContext);
+        if (BuildConfig.DEBUG) {
+            Stetho.initialize(
+                    newInitializerBuilder(mContext)
+                            .enableDumpapp(Stetho.defaultDumperPluginsProvider(mContext))
+                            .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(mContext))
+                            .build());
+        }
     }
 
     @Override
