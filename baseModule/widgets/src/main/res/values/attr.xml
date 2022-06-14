@@ -64,4 +64,14 @@
             <enum name="center" value="3"/>
         </attr>
     </declare-styleable>
+
+    <!--recycleView横滑删除配置-->
+    <declare-styleable name="SwipMenuLayout">
+        <attr name="leftMenuView" format="reference" />
+        <attr name="rightMenuView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="canRightSwipe" format="boolean" />
+        <attr name="canLeftSwipe" format="boolean" />
+        <attr name="fraction" format="float" />
+    </declare-styleable>
 </resources>
