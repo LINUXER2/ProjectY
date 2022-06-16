@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation project(path: ':baseModule:databases')
+    implementation project(path: ':baseModule:widgets')
     implementation "$rootProject.ext.dependencies.material"
     implementation "$rootProject.ext.dependencies.kotlin_coroutine"
     implementation "$rootProject.ext.dependencies.kotlin_coroutine_android"
