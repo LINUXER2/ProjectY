@@ -14,7 +14,7 @@ import android.widget.TextView;
  *  实现一个打印机效果的textView
  *  思路：1. 重绘文字
  *       2.利用属性动画动态改变文字内容
- *
+ * https://github.com/lygttpod/AndroidCustomView/blob/master/app/src/main/java/com/allen/androidcustomview/widget/FadeInTextView.java
  */
 public class FadeInTextView extends TextView {
     private TextAnimListener mTextAnimListener;
