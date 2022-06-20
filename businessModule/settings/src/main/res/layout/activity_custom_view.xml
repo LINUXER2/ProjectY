@@ -26,6 +26,12 @@
             android:layout_height="wrap_content">
         </com.jinn.projecty.widgets.FadeInTextView>
 
+        <com.jinn.projecty.widgets.HorizontalProgress
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.jinn.projecty.widgets.HorizontalProgress>
+
     </com.jinn.projecty.settings.ui.CustomLayout>
 
 </LinearLayout>

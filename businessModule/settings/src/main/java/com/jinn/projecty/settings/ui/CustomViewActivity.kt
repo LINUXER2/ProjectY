@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.jinn.projecty.settings.databinding.ActivityCustomViewBinding
 import com.jinn.projecty.utils.LogUtils
-import com.jinn.projecty.widgets.FadeInTextView
 
 class CustomViewActivity : AppCompatActivity() {
     private lateinit var mViewBinding:ActivityCustomViewBinding
@@ -28,6 +27,8 @@ class CustomViewActivity : AppCompatActivity() {
         fadeInTextView.Builder().setTextString("这是一个打印机aaaa").setDuration(100).setTextAnimListener {
             LogUtils.d(TAG,"FadeIn Anim end")
         }.build().startAnim()
+
+        mViewBinding.progress.setMaxProgress(100f).startProgressAnim()
     }
 
     override fun onDestroy() {
