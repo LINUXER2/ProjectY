@@ -78,9 +78,9 @@ class CustomView @JvmOverloads constructor(context:Context,attr:AttributeSet?=nu
         val shader1 = BitmapShader(mBitmap1,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP)
         val shader2 = BitmapShader(mBitmap2,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP)
         val composShader = ComposeShader(shader1,shader2,PorterDuff.Mode.SRC_OVER)      // 混合着色器，实际就是shader2将以什么样的方式绘制到shader1上
-        paint.shader = shader1
+        paint.shader = composShader
         paint.style=Paint.Style.FILL
-        canvas?.drawRect(0f,0f, mBitmap1.width.toFloat(), mBitmap1.height.toFloat(),paint)
+        canvas?.drawRoundRect(0f,0f, mBitmap1.width.toFloat(), mBitmap1.height.toFloat(),20f,20f,paint)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

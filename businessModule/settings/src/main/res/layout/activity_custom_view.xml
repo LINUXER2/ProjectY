@@ -29,8 +29,14 @@
         <com.jinn.projecty.widgets.HorizontalProgress
             android:id="@+id/progress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="30dp">
         </com.jinn.projecty.widgets.HorizontalProgress>
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="200dp"
+            android:layout_height="200dp">
+        </ImageView>
 
     </com.jinn.projecty.settings.ui.CustomLayout>
 
