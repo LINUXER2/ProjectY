@@ -4,13 +4,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 
-import com.jinn.projecty.frameapi.interfaces.IServiceInterface;
+import com.jinn.projecty.frameapi.service.IMainAppService;
 import com.jinn.projecty.utils.LogUtils;
 
 /**
  * Created by jinnlee on 2021/1/21.
  */
-public class MainAppService implements IServiceInterface {
+public class MainAppService implements IMainAppService {
 
     private Context mContext;
     private final String TAG="MainAppService";
@@ -32,6 +32,7 @@ public class MainAppService implements IServiceInterface {
      * @param intent
      * @param context
      */
+    @Override
     public void startActivity(Intent intent,Context context){
         try {
             context.startActivity(intent);
@@ -40,4 +41,8 @@ public class MainAppService implements IServiceInterface {
         }
     }
 
+    @Override
+    public void init() {
+
+    }
 }

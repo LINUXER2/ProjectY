@@ -16,6 +16,10 @@ import java.util.Map;
 public class ServiceManager {
     private static ServiceManager sInstance;
     private HashMap<String, IServiceInterface> mModuleServices = new HashMap<>();
+    public static final String SERVICE_MAIN_APP = "mainapp";
+    public static final String SERVICE_BUSSINESS_MAIN="businessMain";
+    public static final String SERVICE_BUSINESS_VIDEO ="businessVideo";
+    public static final String SERVICE_BUSINESS_SETTINGS="businessSettings";
 
     private ServiceManager(){
 
@@ -38,8 +42,8 @@ public class ServiceManager {
      */
     public void loadServices(Context context){
          HashMap<String,String>hashMap =new HashMap<>();
-         hashMap.put("mainAppService","com.jinn.projecty.api.MainAppService");
-         hashMap.put("businessMainService","com.jinn.projecty.main.api.BusinessMainService");
+         hashMap.put(SERVICE_MAIN_APP,"com.jinn.projecty.api.MainAppService");
+         hashMap.put(SERVICE_BUSSINESS_MAIN,"com.jinn.projecty.main.api.BusinessMainService");
 
          for(Map.Entry entry : hashMap.entrySet()){
              String key = (String)entry.getKey();
@@ -77,8 +81,8 @@ public class ServiceManager {
 
 
 
-    public IServiceInterface getService(String key){
-        return mModuleServices.get(key);
+    public <T extends IServiceInterface> T getService(String key){
+        return (T)mModuleServices.get(key);
     }
 
 }
