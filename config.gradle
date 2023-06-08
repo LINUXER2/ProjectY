@@ -1,10 +1,10 @@
 ext {
     //配置信息
     defConfig = [
-            compileSdkVersion: 31,
+            compileSdkVersion: 32,
             buildToolsVersion: "30.0.2",
             minSdkVersion    : 26,
-            targetSdkVersion : 31,
+            targetSdkVersion : 32,
             versionCode      : 1,
             versionName      : "1.0",
             sourceCompatibility:JavaVersion.VERSION_1_8,
@@ -13,9 +13,11 @@ ext {
 
     //統一管理各module引入的sdk
     dependencies =[
+            //androidX
+            appcompat                    : 'androidx.appcompat:appcompat:1.4.1',
 
             //kotlin
-            kotlin_core                  : "androidx.core:core-ktx:1.7.0", // kotlin核心库
+            kotlin_core                  : "androidx.core:core-ktx:$kotlin_version", // kotlin核心库
             kotlin                       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version", //kotlin
             // 协程
             kotlin_coroutine             : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_version", //协程核心库

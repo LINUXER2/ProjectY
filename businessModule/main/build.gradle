@@ -1,10 +1,15 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
 apply from: "$rootProject.baseGradle"
 
 android {
+    namespace 'com.jinn.projecty.main'
     compileSdkVersion rootProject.ext.defConfig.compileSdkVersion
     buildToolsVersion rootProject.ext.defConfig.buildToolsVersion
+
     defaultConfig {
         minSdkVersion rootProject.ext.defConfig.minSdkVersion
         targetSdkVersion rootProject.ext.defConfig.targetSdkVersion
@@ -12,12 +17,7 @@ android {
         versionName rootProject.ext.defConfig.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    compileOptions {
-        sourceCompatibility rootProject.ext.defConfig.sourceCompatibility
-        targetCompatibility rootProject.ext.defConfig.targetCompatibility
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -26,27 +26,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility rootProject.ext.defConfig.sourceCompatibility
+        targetCompatibility rootProject.ext.defConfig.targetCompatibility
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
     //开启ViewBinding
     viewBinding {
         enabled = true
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     loadKotlin()
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation rootProject.ext.dependencies.kotlin_core
+    implementation rootProject.ext.dependencies.appcompat
+    implementation rootProject.ext.dependencies.material
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.0.5'
+    implementation 'io.github.scwang90:refresh-header-classics:2.0.5'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
   //  implementation '$rootProject.ext.dependencies.gsyPlayer'
-    implementation "$rootProject.ext.dependencies.playerBase"
+  //  implementation "$rootProject.ext.dependencies.playerBase"
     implementation "$rootProject.ext.dependencies.lottie"
     implementation 'com.android.support:design:28.0.0'
     implementation project(path: ':baseModule:widgets')

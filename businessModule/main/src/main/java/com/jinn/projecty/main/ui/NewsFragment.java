@@ -16,9 +16,9 @@ import com.jinn.projecty.main.model.NewsViewModel;
 import com.jinn.projecty.main.model.ViewModelFactory;
 import com.jinn.projecty.main.ui.widget.SimpleItemDecoration;
 import com.jinn.projecty.utils.LogUtils;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
 
@@ -171,6 +171,6 @@ public class NewsFragment extends BaseFragment<NewsViewModel> implements Lifecyc
 
     @Override
     protected ViewModelProvider.Factory onBindViewModelFactory() {
-        return ViewModelFactory.getInstance(getActivity().getApplication());
+        return (ViewModelProvider.Factory) ViewModelFactory.getInstance(getActivity().getApplication());
     }
 }

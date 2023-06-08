@@ -16,9 +16,7 @@ import com.jinn.projecty.main.message.MyHandler;
 import com.jinn.projecty.main.service.JobScheduleService;
 import com.jinn.projecty.main.ui.video.ExoMediaPlayer;
 import com.jinn.projecty.utils.LogUtils;
-import com.kk.taurus.playerbase.config.PlayerConfig;
-import com.kk.taurus.playerbase.config.PlayerLibrary;
-import com.kk.taurus.playerbase.entity.DecoderPlan;
+
 
 /**
  * Created by jinnlee on 2021/2/24.
@@ -45,11 +43,7 @@ public class MainApplication implements IApplicationInterface {
     }
 
     private void initPlayerBase(){
-        PlayerConfig.setUseDefaultNetworkEventProducer(true);
-        int defaultPlanId = 1;
-        PlayerConfig.addDecoderPlan(new DecoderPlan(defaultPlanId, ExoMediaPlayer.class.getName(),"ExoPlayer"));
-        PlayerConfig.setDefaultPlanId(defaultPlanId);
-        PlayerLibrary.init(BaseApplication.sInstance);
+
     }
 
     private void startJobService() {

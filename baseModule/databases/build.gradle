@@ -6,14 +6,14 @@ plugins {
 apply from: "$rootProject.baseGradle"
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "31.0.0"
+    compileSdkVersion rootProject.ext.defConfig.compileSdkVersion
+    buildToolsVersion rootProject.ext.defConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 32
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.defConfig.minSdkVersion
+        targetSdkVersion rootProject.ext.defConfig.targetSdkVersion
+        versionCode rootProject.ext.defConfig.versionCode
+        versionName rootProject.ext.defConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -25,8 +25,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility  rootProject.ext.defConfig.sourceCompatibility
+        targetCompatibility  rootProject.ext.defConfig.targetCompatibility
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -36,16 +36,16 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation rootProject.ext.dependencies.kotlin_core
+    implementation rootProject.ext.dependencies.appcompat
+    implementation rootProject.ext.dependencies.material
     implementation project(path: ':frame-api')
     implementation project(path: ':baseModule:base')
 
     api "$rootProject.ext.dependencies.room_runtime"
     api "$rootProject.ext.dependencies.room_common"
     api "$rootProject.ext.dependencies.room_ktx"
-    kapt "$rootProject.ext.dependencies.room_compiler"
+   // kapt "$rootProject.ext.dependencies.room_compiler"
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
