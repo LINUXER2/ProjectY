@@ -6,22 +6,24 @@ ext{
 
 buildscript {
     ext {
-        kotlin_version = '1.4.32'
+        kotlin_version = '1.7.0'
     }
     repositories {
         google()
+        mavenCentral()
         maven {
-            url 'https://maven.google.com/'
+            url 'https://repository.jboss.org/maven2'
             name 'Google'
         }
-        mavenCentral()
-        jcenter()
-        
+        maven {
+            url "https://repo.spring.io/release"
+        }
+
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0'
+        classpath 'com.android.tools.build:gradle:7.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.bytedance.tools.lancet:lancet-plugin-asm6:1.0.0'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -30,13 +32,15 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         maven {
-            url 'https://maven.google.com/'
+            url 'https://repository.jboss.org/maven2'
             name 'Google'
         }
-        mavenCentral()
-        jcenter()
-        
+        maven {
+            url "https://repo.spring.io/release"
+        }
+
     }
 }
 
