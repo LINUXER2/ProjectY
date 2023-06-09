@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.ele.lancet'
 
 android {
     compileSdkVersion rootProject.ext.defConfig.compileSdkVersion
@@ -46,5 +45,4 @@ dependencies {
     implementation project(path: ':frame-api')
     implementation project(path: ':baseModule:utils')
     implementation project(path: ':businessModule:main')
-    compileOnly 'me.ele:lancet-base:1.0.6'
 }
