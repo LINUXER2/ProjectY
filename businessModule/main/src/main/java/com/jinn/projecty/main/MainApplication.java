@@ -37,7 +37,7 @@ public class MainApplication implements IApplicationInterface {
     @Override
     public void onCreate() {
         LogUtils.d(TAG,"MainApplication onCreate");
-        startJobService();
+        //startJobService();
         initPlayerBase();
         WebViewPreloadHelper.INSTANCE.prepareWebView();
     }
