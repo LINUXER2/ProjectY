@@ -55,7 +55,7 @@ public class NewsLandingActivity extends BaseFragmentActivity<NewsLandingViewMod
 
     @Override
     protected ViewModelProvider.Factory onBindViewModelFactory() {
-        return ViewModelFactory.getInstance(getApplication());
+        return (ViewModelProvider.Factory) ViewModelFactory.getInstance(getApplication());
     }
 
     @Override

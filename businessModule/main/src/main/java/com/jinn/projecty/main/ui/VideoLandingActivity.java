@@ -58,7 +58,7 @@ public class VideoLandingActivity extends BaseFragmentActivity<NewsLandingViewMo
 
     @Override
     protected ViewModelProvider.Factory onBindViewModelFactory() {
-        return ViewModelFactory.getInstance(getApplication());
+        return (ViewModelProvider.Factory) ViewModelFactory.getInstance(getApplication());
     }
 
     @Override
