@@ -9,7 +9,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="插入数据库"
+        android:text="双进程重启应用"
         android:id="@+id/button1">
 
     </Button>

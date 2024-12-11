@@ -1,4 +1,4 @@
-package com.jinn.projecty.settings
+package com.jinn.projecty.settings.model
 
 import android.app.Application
 import android.content.ComponentName
@@ -8,11 +8,13 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.os.SystemClock
 import androidx.lifecycle.*
+import com.jinn.projecty.base.BaseModel
+import com.jinn.projecty.base.BaseViewModel
 import com.jinn.projecty.databases.AppDatabase
 import com.jinn.projecty.databases.entity.StudentEntity
 import com.jinn.projecty.utils.LogUtils
 
-class SettingViewModel(application: Application) : AndroidViewModel(application) {
+class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(application) {
     companion object{
         private const val TAG ="SettingViewModel"
     }
