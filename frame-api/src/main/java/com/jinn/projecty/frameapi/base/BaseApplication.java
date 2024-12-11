@@ -1,5 +1,6 @@
 package com.jinn.projecty.frameapi.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -7,6 +8,8 @@ import android.util.Log;
 
 import com.jinn.projecty.frameapi.interfaces.IApplicationInterface;
 import com.jinn.projecty.frameapi.service.ServiceManager;
+import com.jinn.projecty.utils.AppStateListener;
+import com.jinn.projecty.utils.ActivityManager;
 import com.jinn.projecty.utils.LogUtils;
 import com.jinn.projecty.utils.NetWorkManager;
 import com.jinn.projecty.utils.ProcessUtils;
@@ -35,6 +38,17 @@ public class BaseApplication extends Application implements IApplicationInterfac
             createApplications(base);
             createServices(base);
             NetWorkManager.getInstance(base).registerNetListener();
+            ActivityManager.INSTANCE.register(this, new AppStateListener() {
+                @Override
+                public void onFront(Activity activity) {
+                    LogUtils.d(TAG,"BaseApplication,onAppFront");
+                }
+
+                @Override
+                public void onBack(Activity activity) {
+                    LogUtils.d(TAG,"BaseApplication,onAppBack");
+                }
+            });
         }
     }
 
@@ -68,7 +82,7 @@ public class BaseApplication extends Application implements IApplicationInterfac
                 mModuleApplications.add(application);
                 continue;
             }catch (Exception e){
-                Log.d("jinn","get constructer context error,"+e.toString());
+                Log.d(TAG,"get constructer context error,"+e.toString());
             }
 
             //若没有带参的构造函数，则获取无参构造函数
@@ -76,7 +90,7 @@ public class BaseApplication extends Application implements IApplicationInterfac
                 IApplicationInterface application = (IApplicationInterface)clazz.newInstance();
                 mModuleApplications.add(application);
             }catch (Exception e){
-                Log.d("jinn","get constructer error,"+e.toString());
+                Log.d(TAG,"get constructer error,"+e.toString());
             }
 
         }
