@@ -45,6 +45,7 @@ dependencies {
     api "$rootProject.ext.dependencies.room_runtime"
     api "$rootProject.ext.dependencies.room_common"
     api "$rootProject.ext.dependencies.room_ktx"
+    implementation project(path: ':baseModule:utils')
     kapt "$rootProject.ext.dependencies.room_compiler"
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

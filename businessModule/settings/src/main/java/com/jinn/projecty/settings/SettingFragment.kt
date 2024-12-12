@@ -30,7 +30,8 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
 
         mViewBinding.button2.setOnClickListener {
            // mViewModel.insertData()
-            mViewModel.queryAll().observe(viewLifecycleOwner) {
+            mViewModel.queryContentProvider()
+            mViewModel.queryAllStudent().observe(viewLifecycleOwner) {
                 LogUtils.d(TAG, "getStudentLiveData,size:${it.size}")
             }
         }
@@ -70,6 +71,7 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
     override fun onBindViewModel(): Class<SettingViewModel> {
         return SettingViewModel::class.java;
     }
+
 
 
 }

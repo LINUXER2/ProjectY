@@ -13,11 +13,6 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <provider
-            android:name=".databases.MyContentProvider"
-            android:authorities="com.jinn.projecty"
-            android:enabled="true"
-            android:exported="true"></provider>
 
         <activity android:name=".MainActivity"
             android:exported="true">

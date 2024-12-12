@@ -5,11 +5,8 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.jinn.projecty.databases.MyAsyncQueryHandler;
-import com.jinn.projecty.databases.MyContentProvider;
 import com.jinn.projecty.databinding.HomeActivityBinding;
 import com.jinn.projecty.main.ui.MainFragment;
 import com.jinn.projecty.settings.SettingFragment;
@@ -97,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        TestQueryData();
     }
 
     /**
@@ -112,35 +108,4 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onBackPressed();
     }
-
-    private void TestQueryData(){
-        HeavyWorkThread.getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                ContentResolver resolver = getContentResolver();
-                Cursor cursor = null;
-                try{
-                    cursor = resolver.query(MyContentProvider.USER,new String[]{MyContentProvider.DB_COLUMN_USER_AGE,MyContentProvider.DB_COLUMN_USER_NAME},null,null,MyContentProvider.DB_COLUMN_USER_AGE+" DESC");
-                    if(cursor!=null && cursor.getCount()>0){
-                        int nameIndex = cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME);
-                        while (cursor.moveToNext()){
-                            String name = cursor.getString(nameIndex);
-                            LogUtils.d(TAG,"query user:"+name);
-                        }
-                    }
-                }catch (Exception e){
-                    LogUtils.e(TAG,"error:"+e.toString());
-                }
-                if(cursor!=null){
-                    cursor.close();
-                }
-
-            }
-        });
-
-        //AsyncQueryHandler是一个异步的查询操作帮助类，可以处理增删改ContentProvider提供的数据并在主线程回调查询结果
-        MyAsyncQueryHandler queryHandler = new MyAsyncQueryHandler(getContentResolver());
-        queryHandler.startQuery(0,null,MyContentProvider.USER,new String[]{MyContentProvider.DB_COLUMN_USER_AGE,MyContentProvider.DB_COLUMN_USER_NAME},null,null,MyContentProvider.DB_COLUMN_USER_AGE+" DESC");
-    }
-
 }

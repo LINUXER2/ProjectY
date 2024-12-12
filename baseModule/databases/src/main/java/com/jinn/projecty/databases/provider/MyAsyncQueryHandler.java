@@ -1,4 +1,4 @@
-package com.jinn.projecty.databases;
+package com.jinn.projecty.databases.provider;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;

@@ -1,4 +1,4 @@
-package com.jinn.projecty.databases;
+package com.jinn.projecty.databases.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.jinn.projecty.BuildConfig;
+import com.jinn.projecty.databases.BuildConfig;
 import com.jinn.projecty.utils.AssetUtils;
 import com.jinn.projecty.utils.LogUtils;
 
