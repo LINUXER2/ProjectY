@@ -12,36 +12,47 @@ import com.jinn.projecty.databases.entity.StudentEntity
 import com.jinn.projecty.databases.provider.MyAsyncQueryHandler
 import com.jinn.projecty.databases.provider.MyContentProvider
 import com.jinn.projecty.frameapi.base.BaseApplication
+import com.jinn.projecty.settings.ktx.launch
 import com.jinn.projecty.utils.HeavyWorkThread
 import com.jinn.projecty.utils.LogUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(application) {
-    companion object{
-        private const val TAG ="SettingViewModel"
+    companion object {
+        private const val TAG = "SettingViewModel"
     }
+
     private val mStudentDao by lazy { AppDatabase.getDatabase().studentDao() }
     private var mStudentListLiveData = MutableLiveData<List<StudentEntity>>()
 
-    fun getStudentLiveData():LiveData<List<StudentEntity>>{
+    fun getStudentLiveData(): LiveData<List<StudentEntity>> {
         return mStudentListLiveData
     }
 
-    fun insertStudentData(){
-        mStudentDao.insert(StudentEntity("張三"+SystemClock.elapsedRealtime(),"男",18))
+    suspend fun insertStudentData() {
+        withContext(Dispatchers.IO) {
+            LogUtils.d(TAG, "insertStudentData1")
+            delay(1000)
+            LogUtils.d(TAG, "insertStudentData2")
+            mStudentDao.insert(StudentEntity("張三" + SystemClock.elapsedRealtime(), "男", 18))
+        }
     }
 
     /**
      * 监听数据变化
      */
-    fun queryAllStudent():LiveData<List<StudentEntity>>{
+    fun queryAllStudent(): LiveData<List<StudentEntity>> {
         return mStudentDao.queryAllByLiveData()
     }
 
     /**
      * 查询contentProvider
      */
-    fun queryContentProvider() {
-        HeavyWorkThread.getHandler().post {
+    suspend fun queryContentProvider() {
+        withContext(Dispatchers.IO) {
             val resolver: ContentResolver = BaseApplication.sInstance.contentResolver
             var cursor: Cursor? = null
             try {
@@ -69,8 +80,9 @@ class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(appl
             cursor?.close()
         }
 
+
         //AsyncQueryHandler是一个异步的查询操作帮助类，可以处理增删改ContentProvider提供的数据并在主线程回调查询结果
-        val queryHandler = MyAsyncQueryHandler( BaseApplication.sInstance.contentResolver)
+        val queryHandler = MyAsyncQueryHandler(BaseApplication.sInstance.contentResolver)
         queryHandler.startQuery(
             0,
             null,

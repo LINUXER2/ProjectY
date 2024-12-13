@@ -3,6 +3,7 @@ package com.jinn.projecty.settings
 import android.content.Intent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.jinn.projecty.base.BaseFragment
 import com.jinn.projecty.settings.client.AidlClientManager
 import com.jinn.projecty.settings.client.MessengerClientManager
@@ -29,8 +30,10 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
 
 
         mViewBinding.button2.setOnClickListener {
-           // mViewModel.insertData()
-            mViewModel.queryContentProvider()
+            mViewModel.viewModelScope.launch(Dispatchers.Main){
+                mViewModel.insertStudentData()
+                mViewModel.queryContentProvider()
+            }
             mViewModel.queryAllStudent().observe(viewLifecycleOwner) {
                 LogUtils.d(TAG, "getStudentLiveData,size:${it.size}")
             }
