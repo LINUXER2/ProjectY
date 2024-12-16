@@ -15,7 +15,7 @@ import retrofit2.http.Url;
 /**
  * Created by jinnlee on 2021/1/27.
  */
-public interface RetrofitApi {
+public interface NewsApi {
   @GET("v2/feed?")
     Observable<RecommandDataBean>getMainData(@Query("key")String key);
 
