@@ -1,7 +1,7 @@
 package com.jinn.projecty.main.model;
 
 import com.jinn.projecty.main.RxjavaRule;
-import com.jinn.projecty.main.api.RetrofitApi;
+import com.jinn.projecty.main.api.NewsApi;
 import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.network.RetrofitManager;
 
@@ -63,7 +63,7 @@ public class MainModelTest {
 
     @Test
     public void requestMainData() {
-        RetrofitManager.getInstance().createService(RetrofitApi.class,BASE_URL).getMainData("2")
+        RetrofitManager.getInstance().createService(NewsApi.class,BASE_URL).getMainData("2")
                 .subscribeOn(Schedulers.io())
               //  .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RecommandDataBean>() {

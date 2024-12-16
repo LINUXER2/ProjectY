@@ -46,4 +46,12 @@
 
     </Button>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button6"
+        android:text="获取服务器数据">
+
+    </Button>
+
 </LinearLayout>

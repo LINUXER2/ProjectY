@@ -56,6 +56,14 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
                 it1.startActivity(intent)
             }
         }
+
+        mViewBinding.button6.setOnClickListener {
+            mViewModel.viewModelScope.launch { mViewModel.getServerData() }
+        }
+
+        mViewModel.getListLiveData().observe(viewLifecycleOwner) {
+            LogUtils.d(TAG, "get data from server:${it.size}")
+        }
     }
 
     override fun onBindViewModelFactory(): ViewModelProvider.Factory? {

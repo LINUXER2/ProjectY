@@ -1,7 +1,7 @@
 package com.jinn.projecty.main.model;
 
 import com.jinn.projecty.base.BaseModel;
-import com.jinn.projecty.main.api.RetrofitApi;
+import com.jinn.projecty.main.api.NewsApi;
 import com.jinn.projecty.main.bean.RecommandDataBean;
 import com.jinn.projecty.network.RetrofitManager;
 
@@ -16,10 +16,10 @@ public class NewsModel extends BaseModel implements LifecycleObserver {
     private final String BASE_URL = "https://baobab.kaiyanapp.com/api/";
 
     public Observable<RecommandDataBean> requestMainData(){
-       return RetrofitManager.getInstance().createService(RetrofitApi.class,BASE_URL).getMainData("2");
+       return RetrofitManager.getInstance().createService(NewsApi.class,BASE_URL).getMainData("2");
     }
 
     public Observable<RecommandDataBean>requestRelateData(String url){
-        return RetrofitManager.getInstance().createService(RetrofitApi.class,"").getMoreData(url);
+        return RetrofitManager.getInstance().createService(NewsApi.class,"").getMoreData(url);
     }
 }

@@ -12,24 +12,31 @@ import com.jinn.projecty.databases.entity.StudentEntity
 import com.jinn.projecty.databases.provider.MyAsyncQueryHandler
 import com.jinn.projecty.databases.provider.MyContentProvider
 import com.jinn.projecty.frameapi.base.BaseApplication
-import com.jinn.projecty.settings.ktx.launch
-import com.jinn.projecty.utils.HeavyWorkThread
+import com.jinn.projecty.settings.api.SettingRepo
 import com.jinn.projecty.utils.LogUtils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(application) {
+    private val repo by lazy {
+        SettingRepo()
+    }
+
     companion object {
         private const val TAG = "SettingViewModel"
     }
 
     private val mStudentDao by lazy { AppDatabase.getDatabase().studentDao() }
     private var mStudentListLiveData = MutableLiveData<List<StudentEntity>>()
+    private var mListData = MutableLiveData<List<VideoBeanItem>>()
 
     fun getStudentLiveData(): LiveData<List<StudentEntity>> {
         return mStudentListLiveData
+    }
+
+    fun getListLiveData(): LiveData<List<VideoBeanItem>> {
+        return mListData
     }
 
     suspend fun insertStudentData() {
@@ -97,4 +104,11 @@ class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(appl
         )
     }
 
+    suspend fun getServerData() {
+        val rsp = repo.getDataFromServer()
+        LogUtils.d(TAG, "getServerData:$rsp")
+        if (rsp.data != null && rsp.isSucceed()) {
+            mListData.postValue(rsp.data!!)
+        }
+    }
 }
