@@ -18,7 +18,7 @@ open class BaseRepository {
             }
             response
         } catch (e: Exception) {
-            BaseResponse(data = null, code = -1, msg = e.toString())
+            BaseResponse(data = null, code = -1, msg = "网络连接异常")
         }
     }
 }

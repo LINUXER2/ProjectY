@@ -62,6 +62,7 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
                 mViewModel.getServerData()
                 mViewModel.getServerData2()
             }
+            mViewModel.viewModelScope.launch { mViewModel.getServerData() }
         }
 
         mViewModel.getListLiveData().observe(viewLifecycleOwner) {
