@@ -1,0 +1,146 @@
+package com.jinn.projecty.settings.model
+
+import android.app.Application
+import android.content.*
+import android.database.Cursor
+import android.os.SystemClock
+import androidx.lifecycle.*
+import com.jinn.projecty.base.BaseModel
+import com.jinn.projecty.base.BaseViewModel
+import com.jinn.projecty.databases.AppDatabase
+import com.jinn.projecty.databases.entity.StudentEntity
+import com.jinn.projecty.databases.provider.MyAsyncQueryHandler
+import com.jinn.projecty.databases.provider.MyContentProvider
+import com.jinn.projecty.frameapi.base.BaseApplication
+import com.jinn.projecty.settings.api.SettingRepo
+import com.jinn.projecty.utils.LogUtils
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+
+class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(application) {
+    private val repo by lazy {
+        SettingRepo()
+    }
+
+    companion object {
+        private const val TAG = "SettingViewModel"
+    }
+
+    private val mStudentDao by lazy { AppDatabase.getDatabase().studentDao() }
+    private var mStudentListLiveData = MutableLiveData<List<StudentEntity>>()
+    private var mListData = MutableLiveData<List<VideoBeanItem>>()
+
+    fun getStudentLiveData(): LiveData<List<StudentEntity>> {
+        return mStudentListLiveData
+    }
+
+    fun getListLiveData(): LiveData<List<VideoBeanItem>> {
+        return mListData
+    }
+
+    suspend fun insertStudentData() {
+        withContext(Dispatchers.IO) {
+            LogUtils.d(TAG, "insertStudentData1")
+            delay(1000)
+            LogUtils.d(TAG, "insertStudentData2")
+            mStudentDao.insert(StudentEntity("張三" + SystemClock.elapsedRealtime(), "男", 18))
+        }
+    }
+
+    /**
+     * 监听数据变化
+     */
+    fun queryAllStudent(): LiveData<List<StudentEntity>> {
+        return mStudentDao.queryAllByLiveData()
+    }
+
+    /**
+     * 查询contentProvider
+     */
+    suspend fun queryContentProvider() {
+        withContext(Dispatchers.IO) {
+            val resolver: ContentResolver = BaseApplication.sInstance.contentResolver
+            var cursor: Cursor? = null
+            try {
+                cursor = resolver.query(
+                    MyContentProvider.USER,
+                    arrayOf(
+                        MyContentProvider.DB_COLUMN_USER_AGE,
+                        MyContentProvider.DB_COLUMN_USER_NAME
+                    ),
+                    null,
+                    null,
+                    MyContentProvider.DB_COLUMN_USER_AGE + " DESC"
+                )
+                if (cursor != null && cursor.count > 0) {
+                    val nameIndex =
+                        cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME)
+                    while (cursor.moveToNext()) {
+                        val name = cursor.getString(nameIndex)
+                        LogUtils.d(TAG, "query user:$name")
+                    }
+                }
+            } catch (e: Exception) {
+                LogUtils.e(TAG, "error:$e")
+            }
+            cursor?.close()
+        }
+
+
+        //AsyncQueryHandler是一个异步的查询操作帮助类，可以处理增删改ContentProvider提供的数据并在主线程回调查询结果
+        val queryHandler = MyAsyncQueryHandler(BaseApplication.sInstance.contentResolver)
+        queryHandler.startQuery(
+            0,
+            null,
+            MyContentProvider.USER,
+            arrayOf<String>(
+                MyContentProvider.DB_COLUMN_USER_AGE,
+                MyContentProvider.DB_COLUMN_USER_NAME
+            ),
+            null,
+            null,
+            MyContentProvider.DB_COLUMN_USER_AGE + " DESC"
+        )
+    }
+
+    /**
+     *  网络请求，返回liveData
+     */
+    suspend fun getServerData() {
+        val rsp = repo.getDataFromServer()
+        LogUtils.d(TAG, "getServerData:$rsp")
+        if (rsp.data != null && rsp.isSucceed()) {
+            mListData.postValue(rsp.data!!)
+        }
+    }
+
+
+    /**
+     *  网络请求，返回Observable
+     */
+    fun getServerData2() {
+        repo.getDataFromServer2().subscribeOn(Schedulers.io()).subscribe(object :
+            Observer<VideoBeanItem?> {
+            override fun onSubscribe(d: Disposable) {
+                LogUtils.d(TAG, "onSubscribe,")
+            }
+
+            override fun onNext(recommandData: VideoBeanItem) {
+                LogUtils.d(TAG, "onNext:")
+
+            }
+
+            override fun onError(e: Throwable) {
+                LogUtils.d(TAG, "onError,$e")
+            }
+
+            override fun onComplete() {
+                LogUtils.d(TAG, "onComplete")
+            }
+        })
+    }
+}

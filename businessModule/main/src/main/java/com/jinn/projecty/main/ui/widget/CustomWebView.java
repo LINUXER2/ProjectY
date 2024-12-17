@@ -34,8 +34,8 @@ public class CustomWebView extends WebView {
 
         WebSettings webSettings = this.getSettings();
         //设置缓存
-        webSettings.setAppCacheEnabled(true);
-        webSettings.setAppCachePath(getContext().getCacheDir().getAbsolutePath());
+       // webSettings.setAppCacheEnabled(true);
+        //webSettings.setAppCachePath(getContext().getCacheDir().getAbsolutePath());
         getSettings().setDatabaseEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);//设置使用默认的cache加载模式
         //启用地理定位

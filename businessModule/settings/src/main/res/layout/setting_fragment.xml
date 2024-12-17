@@ -9,7 +9,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="插入数据库"
+        android:text="双进程重启应用"
         android:id="@+id/button1">
 
     </Button>
@@ -43,6 +43,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/button5"
         android:text="自定义view">
+
+    </Button>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button6"
+        android:text="获取服务器数据">
 
     </Button>
 

@@ -68,7 +68,7 @@ public abstract class BaseFragment <VM extends BaseViewModel>extends Fragment {
      * 监听页面状态变化
      */
     private void initBaseObservable(){
-         mViewModel.getLiveDataShowLoading().observe(this, new Observer<Boolean>() {
+         mViewModel.getLiveDataShowLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
              @Override
              public void onChanged(Boolean showLoading) {
                  LogUtils.d(TAG,"showLoading,"+showLoading);
@@ -79,7 +79,7 @@ public abstract class BaseFragment <VM extends BaseViewModel>extends Fragment {
              }
          });
 
-         mViewModel.getLiveDataShowError().observe(this, new Observer<Boolean>() {
+         mViewModel.getLiveDataShowError().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
              @Override
              public void onChanged(Boolean showError) {
                  LogUtils.d(TAG,"showError,"+showError);

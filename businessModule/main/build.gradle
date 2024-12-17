@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':baseModule:databases')
     loadKotlin()
     implementation rootProject.ext.dependencies.kotlin_core
     implementation rootProject.ext.dependencies.appcompat
