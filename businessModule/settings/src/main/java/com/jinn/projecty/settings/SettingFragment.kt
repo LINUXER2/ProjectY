@@ -8,6 +8,7 @@ import com.jinn.projecty.base.BaseFragment
 import com.jinn.projecty.settings.client.AidlClientManager
 import com.jinn.projecty.settings.client.MessengerClientManager
 import com.jinn.projecty.settings.databinding.SettingFragmentBinding
+import com.jinn.projecty.settings.ktx.onClick
 import com.jinn.projecty.settings.model.SettingViewModel
 import com.jinn.projecty.settings.ui.CustomViewActivity
 import com.jinn.projecty.utils.LogUtils
@@ -24,32 +25,30 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
 
 
     private fun initView() {
-        mViewBinding.button1.setOnClickListener {
+        mViewBinding.button1.onClick(wait = 100) {
             activity?.let { it1 -> RestartActivity.launch(it1) }
         }
 
 
-        mViewBinding.button2.setOnClickListener {
-            mViewModel.viewModelScope.launch(Dispatchers.Main){
-                mViewModel.insertStudentData()
-                mViewModel.queryContentProvider()
-            }
+        mViewBinding.button2.onClick {
+            mViewModel.insertStudentData()
+            //mViewModel.queryContentProvider()
             mViewModel.queryAllStudent().observe(viewLifecycleOwner) {
                 LogUtils.d(TAG, "getStudentLiveData,size:${it.size}")
             }
         }
 
-        mViewBinding.button3.setOnClickListener {
+        mViewBinding.button3.onClick {
             activity?.let { it1 -> AidlClientManager.bindService(it1) }
         }
 
-        mViewBinding.button4.setOnClickListener {
+        mViewBinding.button4.onClick {
             activity?.let { it1 ->
                 MessengerClientManager.getInstance(it1).sendMessage()
             }
         }
 
-        mViewBinding.button5.setOnClickListener {
+        mViewBinding.button5.onClick {
             activity?.let { it1 ->
                 val intent = Intent()
                 intent.setClass(it1, CustomViewActivity::class.java)
@@ -57,12 +56,9 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
             }
         }
 
-        mViewBinding.button6.setOnClickListener {
-            mViewModel.viewModelScope.launch {
-                mViewModel.getServerData()
-                mViewModel.getServerData2()
-            }
-            mViewModel.viewModelScope.launch { mViewModel.getServerData() }
+        mViewBinding.button6.onClick {
+            mViewModel.getServerData()
+            mViewModel.getServerData2()
         }
 
         mViewModel.getListLiveData().observe(viewLifecycleOwner) {

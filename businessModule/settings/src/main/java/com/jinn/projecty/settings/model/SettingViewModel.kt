@@ -13,13 +13,13 @@ import com.jinn.projecty.databases.provider.MyAsyncQueryHandler
 import com.jinn.projecty.databases.provider.MyContentProvider
 import com.jinn.projecty.frameapi.base.BaseApplication
 import com.jinn.projecty.settings.api.SettingRepo
+import com.jinn.projecty.settings.ktx.launch
 import com.jinn.projecty.utils.LogUtils
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
 
 class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(application) {
     private val repo by lazy {
@@ -42,12 +42,31 @@ class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(appl
         return mListData
     }
 
-    suspend fun insertStudentData() {
-        withContext(Dispatchers.IO) {
-            LogUtils.d(TAG, "insertStudentData1")
-            delay(1000)
-            LogUtils.d(TAG, "insertStudentData2")
-            mStudentDao.insert(StudentEntity("張三" + SystemClock.elapsedRealtime(), "男", 18))
+    /** 协程
+     * https://juejin.cn/post/6987724340775108622
+     * lambda语法
+     * https://juejin.cn/post/7283776161528545317?searchId=20241220134554EE1AEE44186D5A09606C
+     */
+    fun insertStudentData() {
+        launch {
+            withContext(Dispatchers.IO) {
+                val time = measureTimeMillis {
+                    val job1 = async(Dispatchers.Default) {
+                        LogUtils.d(TAG, "insertStudentData1")
+                        delay(1000)
+                        LogUtils.d(TAG, "insertStudentData2")
+                        mStudentDao.insert(StudentEntity("張三" + SystemClock.elapsedRealtime(), "男", 18))
+                    }
+                    job1.await() // 用async和await实现串行任务
+                    val job2 = async(Dispatchers.Default) {
+                        LogUtils.d(TAG, "insertStudentData3")
+                        delay(500)
+                        LogUtils.d(TAG, "insertStudentData4")
+                    }
+                }
+                LogUtils.d(TAG, "time cost :${time}")
+            }
+
         }
     }
 
@@ -61,33 +80,35 @@ class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(appl
     /**
      * 查询contentProvider
      */
-    suspend fun queryContentProvider() {
-        withContext(Dispatchers.IO) {
-            val resolver: ContentResolver = BaseApplication.sInstance.contentResolver
-            var cursor: Cursor? = null
-            try {
-                cursor = resolver.query(
-                    MyContentProvider.USER,
-                    arrayOf(
-                        MyContentProvider.DB_COLUMN_USER_AGE,
-                        MyContentProvider.DB_COLUMN_USER_NAME
-                    ),
-                    null,
-                    null,
-                    MyContentProvider.DB_COLUMN_USER_AGE + " DESC"
-                )
-                if (cursor != null && cursor.count > 0) {
-                    val nameIndex =
-                        cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME)
-                    while (cursor.moveToNext()) {
-                        val name = cursor.getString(nameIndex)
-                        LogUtils.d(TAG, "query user:$name")
+    fun queryContentProvider() {
+        launch {
+            withContext(Dispatchers.IO) {
+                val resolver: ContentResolver = BaseApplication.sInstance.contentResolver
+                var cursor: Cursor? = null
+                try {
+                    cursor = resolver.query(
+                        MyContentProvider.USER,
+                        arrayOf(
+                            MyContentProvider.DB_COLUMN_USER_AGE,
+                            MyContentProvider.DB_COLUMN_USER_NAME
+                        ),
+                        null,
+                        null,
+                        MyContentProvider.DB_COLUMN_USER_AGE + " DESC"
+                    )
+                    if (cursor != null && cursor.count > 0) {
+                        val nameIndex =
+                            cursor.getColumnIndexOrThrow(MyContentProvider.DB_COLUMN_USER_NAME)
+                        while (cursor.moveToNext()) {
+                            val name = cursor.getString(nameIndex)
+                            LogUtils.d(TAG, "query user:$name")
+                        }
                     }
+                } catch (e: Exception) {
+                    LogUtils.e(TAG, "error:$e")
                 }
-            } catch (e: Exception) {
-                LogUtils.e(TAG, "error:$e")
+                cursor?.close()
             }
-            cursor?.close()
         }
 
 
@@ -110,11 +131,13 @@ class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(appl
     /**
      *  网络请求，返回liveData
      */
-    suspend fun getServerData() {
-        val rsp = repo.getDataFromServer()
-        LogUtils.d(TAG, "getServerData:$rsp")
-        if (rsp.data != null && rsp.isSucceed()) {
-            mListData.postValue(rsp.data!!)
+    fun getServerData() {
+        launch {
+            val rsp = repo.getDataFromServer()
+            LogUtils.d(TAG, "getServerData:$rsp")
+            if (rsp.data != null && rsp.isSucceed()) {
+                mListData.postValue(rsp.data!!)
+            }
         }
     }
 

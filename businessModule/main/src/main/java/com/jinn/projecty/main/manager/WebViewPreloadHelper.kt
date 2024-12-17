@@ -6,6 +6,9 @@ import android.os.Looper
 import com.jinn.projecty.frameapi.base.BaseApplication
 import com.jinn.projecty.main.ui.widget.CustomWebView
 import com.jinn.projecty.utils.LogUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
 
 /**
@@ -21,11 +24,27 @@ object WebViewPreloadHelper {
     fun prepareWebView(){
         LogUtils.d(TAG,"prepareWebView,stack size:${webviewPool.size}")
         if(webviewPool.size< MAX_CACHE_SIZE){
-            Looper.getMainLooper().queue.addIdleHandler {
-                if(webviewPool.size< MAX_CACHE_SIZE){
+            GlobalScope.launch { waitForIdle() }
+        }
+    }
+
+    private suspend fun waitForIdle() {
+        suspendCancellableCoroutine {
+            val queue = Looper.getMainLooper().queue
+            val callback = {
+                it.resume(Unit) {
+                    LogUtils.d(TAG, "invokeOnResume")
+                }
+                LogUtils.d(TAG, "start pre cache")
+                if (webviewPool.size < MAX_CACHE_SIZE) {
                     webviewPool.push(createWebView(MutableContextWrapper(BaseApplication.sInstance)))
                 }
                 false
+            }
+            queue.addIdleHandler(callback)
+            it.invokeOnCancellation {
+                LogUtils.d(TAG, "invokeOnCancellation")
+                queue.removeIdleHandler(callback)
             }
         }
     }
