@@ -54,4 +54,12 @@
 
     </Button>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button7"
+        android:text="加载插件apk">
+
+    </Button>
+
 </LinearLayout>

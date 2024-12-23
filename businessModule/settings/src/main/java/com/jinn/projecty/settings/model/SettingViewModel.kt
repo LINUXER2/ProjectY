@@ -1,9 +1,11 @@
 package com.jinn.projecty.settings.model
 
+import android.app.Activity
 import android.app.Application
 import android.content.*
 import android.database.Cursor
 import android.os.SystemClock
+import android.view.View
 import androidx.lifecycle.*
 import com.jinn.projecty.base.BaseModel
 import com.jinn.projecty.base.BaseViewModel
@@ -14,11 +16,16 @@ import com.jinn.projecty.databases.provider.MyContentProvider
 import com.jinn.projecty.frameapi.base.BaseApplication
 import com.jinn.projecty.settings.api.SettingRepo
 import com.jinn.projecty.settings.ktx.launch
+import com.jinn.projecty.utils.AssetUtils
 import com.jinn.projecty.utils.LogUtils
+import dalvik.system.DexClassLoader
+import dalvik.system.DexFile
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
+import java.io.File
+import java.lang.reflect.Constructor
 import kotlin.system.measureTimeMillis
 
 class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(application) {
@@ -165,5 +172,95 @@ class SettingViewModel(application: Application) : BaseViewModel<BaseModel>(appl
                 LogUtils.d(TAG, "onComplete")
             }
         })
+    }
+
+    fun getRemoteView(activity: Activity) {
+        launch {
+            withContext(Dispatchers.IO) {
+                AssetUtils.copyFileFromAssets(activity, "app-debug.apk")
+            }
+            val path = activity.cacheDir
+                .toString() + "/" + "app-debug.apk"
+            val dexClassLoader = DexClassLoader(path, null, null, activity.classLoader)
+            try {
+                val mLoadedClass = dexClassLoader.loadClass("com.jinn.plugin.ViewManager")
+                val loadInstance = mLoadedClass.newInstance()
+                val method = mLoadedClass.getMethod("getView", Context::class.java)
+                val object1 = method.invoke(loadInstance, activity.application)
+                if (object1 is View) {
+                    LogUtils.i(TAG, "view loaded")
+                }
+                mLoadedClass.getMethod("onVisible").invoke(loadInstance)
+            } catch (e: java.lang.Exception) {
+                LogUtils.i(TAG, "load class error:$e")
+            }
+        }
+    }
+
+    fun patchClassLoader(cl: ClassLoader?, optDexFile: File, context: Context) {
+        LogUtils.d(
+            TAG, "patchClassloader, need load apk file exists： " + optDexFile.exists() + ", " +
+                    "path: " + optDexFile.absolutePath
+        )
+        try {
+            // 获取 BaseDexClassLoader : pathList
+            val pathListField =
+                DexClassLoader::class.java.superclass.getDeclaredField("pathList")
+            pathListField.isAccessible = true
+            val pathListObj = pathListField[cl]
+
+            // 获取 PathList: Element[] dexElements
+            val dexElementArray = pathListObj.javaClass.getDeclaredField("dexElements")
+            dexElementArray.isAccessible = true
+            val dexElements = dexElementArray[pathListObj] as Array<Any>
+
+            // Element 类型
+            val elementClass = dexElements.javaClass.componentType
+
+            // 创建一个数组, 用来替换原始的数组
+            val newElements = java.lang.reflect.Array.newInstance(
+                elementClass, dexElements.size
+                        + 1
+            ) as Array<Any>
+
+            // 构造插件Element(File file, boolean isDirectory, File zip, DexFile dexFile) 这个构造函数
+            var constructor: Constructor<*>? = null
+            var o: Any? = null
+            try {
+                constructor = elementClass.getConstructor(DexFile::class.java, File::class.java)
+                o = constructor.newInstance(
+                    DexFile.loadDex(
+                        optDexFile.absolutePath,
+                        context.getDir("outputDir", 0).absolutePath, 0
+                    ), null
+                )
+            } catch (e: NoSuchMethodException) {
+                constructor = elementClass.getConstructor(
+                    File::class.java, Boolean::class.javaPrimitiveType, File::class.java,
+                    DexFile::class.java
+                )
+                o = constructor.newInstance(
+                    File("/system/lib64"), true, null, DexFile
+                        .loadDex(
+                            optDexFile.absolutePath,
+                            context.getDir("outputDir", 0).absolutePath, 0
+                        )
+                )
+            }
+            val toAddElementArray = arrayOf(o)
+            // 把原始的elements复制进去
+            System.arraycopy(dexElements, 0, newElements, 0, dexElements.size)
+            // 插件的那个element复制进去
+            System.arraycopy(
+                toAddElementArray, 0, newElements, dexElements.size,
+                toAddElementArray.size
+            )
+
+            // 替换
+            dexElementArray[pathListObj] = newElements
+            LogUtils.i(TAG, "dexPathList: $pathListObj")
+        } catch (e: java.lang.Exception) {
+            LogUtils.d(TAG, "patch loaded apk fail:$e")
+        }
     }
 }

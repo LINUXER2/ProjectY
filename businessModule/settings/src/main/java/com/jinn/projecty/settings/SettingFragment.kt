@@ -61,6 +61,10 @@ class SettingFragment : BaseFragment<SettingViewModel>(), CoroutineScope by Main
             mViewModel.getServerData2()
         }
 
+        mViewBinding.button7.onClick{
+            this.activity?.let { it1 -> mViewModel.getRemoteView(it1) }
+        }
+
         mViewModel.getListLiveData().observe(viewLifecycleOwner) {
             LogUtils.d(TAG, "get data from server:${it.size}")
         }
