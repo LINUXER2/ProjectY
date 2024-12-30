@@ -1,7 +1,5 @@
 package com.jinn.projecty;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,7 +8,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jinn.projecty.databinding.HomeActivityBinding;
 import com.jinn.projecty.main.ui.MainFragment;
 import com.jinn.projecty.settings.SettingFragment;
-import com.jinn.projecty.utils.HeavyWorkThread;
 import com.jinn.projecty.utils.LogUtils;
 import com.jinn.projecty.video.VideoFragment;
 
@@ -57,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mNavControl.getNavigatorProvider().addNavigator(fragmentNavigator);
         mNavControl.setGraph(initNavGraph(mNavControl.getNavigatorProvider(),fragmentNavigator));
         NavigationUI.setupWithNavController(navigationView,mNavControl);  //将navigation 与 control绑定
+        testLancetHooker();
     }
 
     /**
@@ -107,5 +105,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    public void testLancetHooker() {
+        LogUtils.d("jinn2", "testLancetHooker111");
     }
 }

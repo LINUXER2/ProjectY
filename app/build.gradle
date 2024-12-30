@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply from: "$rootProject.baseGradle"
+apply plugin: 'me.ele.lancet'
+
 android {
     compileSdkVersion rootProject.ext.defConfig.compileSdkVersion
     buildToolsVersion rootProject.ext.defConfig.buildToolsVersion
@@ -47,4 +49,5 @@ dependencies {
     implementation project(path: ':baseModule:base')
     implementation project(path: ':baseModule:utils')
     implementation project(path: ':businessModule:main')
+    compileOnly 'me.ele:lancet-base:1.0.6'
 }
